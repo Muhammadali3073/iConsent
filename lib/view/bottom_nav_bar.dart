@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/chat/chat_screen.dart';
 import 'package:i_consent/view/home/home_screen.dart';
@@ -28,9 +28,11 @@ class MyBottomNavBar extends StatelessWidget {
   ];
 
   Widget _buildBottomNavBarIcon(int index) {
-    final bool isSelected = index == SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value;
+    final bool isSelected =
+        index == SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value;
     return GestureDetector(
-      onTap: () => SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value = index,
+      onTap: () =>
+          SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value = index,
       child: CircleAvatar(
         backgroundColor: isSelected ? AppColor.primaryColor : AppColor.bgColor,
         child: GetSvgImage(
@@ -43,7 +45,7 @@ class MyBottomNavBar extends StatelessWidget {
 
   Widget _buildBottomNavBar() {
     return Container(
-      width: double.infinity,
+      width: SizeConfig.width,
       padding: EdgeInsets.symmetric(vertical: 1.2.h),
       margin: EdgeInsets.only(right: 3.h, left: 3.h, bottom: 1.6.h),
       decoration: BoxDecoration(
@@ -72,6 +74,7 @@ class MyBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,
@@ -79,7 +82,8 @@ class MyBottomNavBar extends StatelessWidget {
           () => Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              pagesOfBottomNavBarIcons[SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value],
+              pagesOfBottomNavBarIcons[
+                  SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value],
               _buildBottomNavBar(),
             ],
           ),

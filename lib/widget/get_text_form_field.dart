@@ -23,9 +23,12 @@ class GetTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.maxLines,
+    this.minLines,
     this.textInputAction,
     this.focusNode,
     this.maxLength,
+    this.vertical,
+    this.onTapOutside,
   });
 
   final String hintText;
@@ -43,15 +46,19 @@ class GetTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final int? maxLines;
+  final int? minLines;
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final int? maxLength;
+  final double? vertical;
+  final void Function(PointerDownEvent)? onTapOutside;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: focusNode,
       maxLines: maxLines ?? 1,
+      minLines: minLines ?? 1,
       maxLength: maxLength,
       keyboardType: keyboardType,
       obscureText: obscureText,
@@ -62,9 +69,10 @@ class GetTextFormField extends StatelessWidget {
       readOnly: readOnly,
       textInputAction: textInputAction ?? TextInputAction.next,
       inputFormatters: inputFormatters,
-      onTapOutside: (event) {
-        context.dismissKeyboard();
-      },
+      onTapOutside: onTapOutside ??
+          (event) {
+            context.dismissKeyboard();
+          },
       style: textStyleW4S16(),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -77,7 +85,7 @@ class GetTextFormField extends StatelessWidget {
             borderRadius: BorderRadius.circular(0.8.h)),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.8.h)),
         contentPadding: EdgeInsets.symmetric(
-          vertical: 1.4.h,
+          vertical: vertical ?? 1.4.h,
           horizontal: 1.6.h,
         ),
         suffixIconConstraints: BoxConstraints.tightFor(

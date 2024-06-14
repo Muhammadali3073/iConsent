@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
-import 'package:i_consent/controller/auth_controller.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
 import 'package:i_consent/view/auth/verification_otp_screen.dart';
@@ -17,7 +16,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class ForgotPasswordScreen extends StatelessWidget with MyAppValidations {
   ForgotPasswordScreen({super.key});
 
-  final AuthController authController = Get.find(tag: 'authController');
+  final TextEditingController emailForgotController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class ForgotPasswordScreen extends StatelessWidget with MyAppValidations {
                       .paddingOnly(bottom: 1.4.h),
                   GetTextFormField(
                     'Email Address',
-                    controller: authController.emailForgotController,
+                    controller: emailForgotController,
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: const GetSvgImage(AppData.emailIcon),
                   ),
@@ -49,12 +48,12 @@ class ForgotPasswordScreen extends StatelessWidget with MyAppValidations {
               ),
               GetButton('Continue', onTap: () {
                 final errorMessage = forgotScreenErrorHandler(
-                  email: authController.emailForgotController,
+                  email: emailForgotController,
                 );
                 if (errorMessage.isEmpty) {
-                  Get.to(() => const VerificationOTPScreen());
+                  Get.to(() => VerificationOTPScreen());
                 } else {
-                  showScaffoldMessenger(context, errorMessage);
+                  showSnackBar(errorMessage, false);
                 }
               }).paddingOnly(bottom: 2.h),
             ],

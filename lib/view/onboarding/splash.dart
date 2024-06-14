@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
+import 'package:i_consent/utils/data.dart';
+import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/onboarding/onboarding_screen.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
@@ -19,7 +20,7 @@ class SplashScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-              width: double.infinity,
+              width: SizeConfig.width,
               child: GetAssetImage(
                 AppData.splashImage,
                 height: 9.h,
@@ -34,7 +35,7 @@ class SplashScreen extends StatelessWidget {
             'Get Started',
             buttonColor: AppColor.whiteColor,
             textColor: AppColor.primaryColor,
-            onTap: () => Get.off(() => const OnboardScreen()),
+            onTap: () => Get.off(() => OnboardScreen()),
           ).paddingOnly(right: 3.h, left: 3.h, bottom: 3.h),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -38,5 +39,14 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showScaffoldMessenger(
       backgroundColor: AppColor.socialButtonColor,
       duration: const Duration(seconds: 2),
     ),
+  );
+}
+
+SnackbarController showSnackBar(String text, bool isSuccess) {
+  return Get.snackbar(
+    isSuccess ? 'Success' : 'Error',
+    text,
+    backgroundColor: isSuccess ? AppColor.primaryColor : AppColor.errorColor,
+    colorText: AppColor.whiteColor,
   );
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
-import 'package:i_consent/controller/auth_controller.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
 import 'package:i_consent/view/auth/login_in_screen.dart';
@@ -18,7 +17,16 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class SignUpScreen extends StatelessWidget with MyAppValidations {
   SignUpScreen({super.key});
 
-  final AuthController authController = Get.find(tag: 'authController');
+  final TextEditingController nameSignUpController =
+      TextEditingController(text: 'Ali Bajwa');
+  final TextEditingController emailSignUpController =
+      TextEditingController(text: 'ali@gmai.com');
+  final TextEditingController setPasswordSignUpController =
+      TextEditingController(text: 'Admin@123');
+  final TextEditingController confirmPasswordSignUpController =
+      TextEditingController(text: 'Admin@123');
+  final isShowConfirmPassword = true.obs;
+  final isShowSetPassword = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +49,29 @@ class SignUpScreen extends StatelessWidget with MyAppValidations {
                     children: [
                       _buildTextFormField(
                         'Full Name',
-                        authController.nameSignUpController,
+                        nameSignUpController,
                         TextInputType.name,
                         AppData.userIcon,
                       ).paddingOnly(bottom: 1.4.h),
                       _buildTextFormField(
                         'Email Address',
-                        authController.emailSignUpController,
+                        emailSignUpController,
                         TextInputType.emailAddress,
                         AppData.emailIcon,
                       ).paddingOnly(bottom: 1.4.h),
                       _buildPasswordFormField(
                         'Set Password',
-                        authController.setPasswordSignUpController,
-                        authController.isShowSetPassword,
-                        authController.toggleSetPasswordVisibility,
+                        setPasswordSignUpController,
+                        isShowSetPassword,
+                        () =>
+                            isShowSetPassword.value = !isShowSetPassword.value,
                       ).paddingOnly(bottom: 1.4.h),
                       _buildPasswordFormField(
                         'Confirm Password',
-                        authController.confirmPasswordSignUpController,
-                        authController.isShowConfirmPassword,
-                        authController.toggleConfirmPasswordVisibility,
+                        confirmPasswordSignUpController,
+                        isShowConfirmPassword,
+                        () => isShowConfirmPassword.value =
+                            !isShowConfirmPassword.value,
                       ),
                     ],
                   ),
@@ -72,16 +82,15 @@ class SignUpScreen extends StatelessWidget with MyAppValidations {
                   'Register',
                   onTap: () {
                     final errorMessage = signupScreenErrorHandler(
-                      name: authController.nameSignUpController,
-                      email: authController.emailSignUpController,
-                      setPassword: authController.setPasswordSignUpController,
-                      confirmPassword:
-                          authController.confirmPasswordSignUpController,
+                      name: nameSignUpController,
+                      email: emailSignUpController,
+                      setPassword: setPasswordSignUpController,
+                      confirmPassword: confirmPasswordSignUpController,
                     );
                     if (errorMessage.isEmpty) {
                       Get.to(() => TermAndConditionScreen());
                     } else {
-                      showScaffoldMessenger(context, errorMessage);
+                      showSnackBar(errorMessage, false);
                     }
                   },
                 ),

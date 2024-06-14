@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
-import 'package:i_consent/controller/auth_controller.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
-import 'package:i_consent/view/auth/forgot_passsword_screen.dart';
+import 'package:i_consent/view/auth/forgot_password_screen.dart';
 import 'package:i_consent/view/auth/sign_up_screen.dart';
 import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
@@ -19,7 +18,11 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class LoginScreen extends StatelessWidget with MyAppValidations {
   LoginScreen({super.key});
 
-  final AuthController authController = Get.find(tag: 'authController');
+  final TextEditingController emailLoginController =
+      TextEditingController(text: 'ali@gmai.com');
+  final TextEditingController passwordLoginController =
+      TextEditingController(text: 'Admin@123');
+  final isShowPassword = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +58,21 @@ class LoginScreen extends StatelessWidget with MyAppValidations {
       children: [
         GetTextFormField(
           'Email Address',
-          controller: authController.emailLoginController,
+          controller: emailLoginController,
           keyboardType: TextInputType.emailAddress,
           prefixIcon: const GetSvgImage(AppData.emailIcon),
         ).paddingOnly(bottom: 1.4.h),
         Obx(
           () => GetTextFormField(
             'Password',
-            controller: authController.passwordLoginController,
-            obscureText: authController.isShowPassword.value,
+            controller: passwordLoginController,
+            obscureText: isShowPassword.value,
             keyboardType: TextInputType.visiblePassword,
             prefixIcon: const GetSvgImage(AppData.lockIcon),
             suffixIcon: GestureDetector(
-              onTap: authController.togglePasswordVisibility,
+              onTap: () => isShowPassword.value = !isShowPassword.value,
               child: Icon(
-                authController.isShowPassword.value
+                isShowPassword.value
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined,
                 size: 2.5.h,
@@ -155,13 +158,13 @@ class LoginScreen extends StatelessWidget with MyAppValidations {
       'Login',
       onTap: () {
         final errorMessage = loginScreenErrorHandler(
-          email: authController.emailLoginController,
-          password: authController.passwordLoginController,
+          email: emailLoginController,
+          password: passwordLoginController,
         );
         if (errorMessage.isEmpty) {
           Get.off(() => const MyBottomNavBar());
         } else {
-          showScaffoldMessenger(context, errorMessage);
+          showSnackBar(errorMessage, false);
         }
       },
     );

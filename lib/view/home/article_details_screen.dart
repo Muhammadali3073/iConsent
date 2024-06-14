@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/utils/utils.dart';
 import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -11,7 +10,6 @@ class ArticlesDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils.setStatusBarColor();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -25,7 +23,7 @@ class ArticlesDetailsScreen extends StatelessWidget {
           children: [
             Container(
               height: 30.h,
-              width: double.infinity,
+              width: SizeConfig.width,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(

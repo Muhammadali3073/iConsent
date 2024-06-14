@@ -4,7 +4,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/controller/auth_controller.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
@@ -12,13 +11,14 @@ import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProfilePictureScreen extends StatelessWidget {
   ProfilePictureScreen({super.key});
 
-  final AuthController authController = Get.find(tag: 'authController');
+  final selectedImagePath = ''.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,10 @@ class ProfilePictureScreen extends StatelessWidget {
         title: 'Profile Picture',
         actions: [
           TextButton(
-            onPressed: () => Get.offAll(() => const MyBottomNavBar()),
+            onPressed: () {
+              selectedImagePath.value = '';
+              Get.offAll(() => const MyBottomNavBar());
+            },
             child: const GetTextW4S14(
               'Skip',
               color: AppColor.primaryColor,
@@ -47,12 +50,11 @@ class ProfilePictureScreen extends StatelessWidget {
                 const GetTextW5S16('Upload display picture')
                     .paddingOnly(top: 3.h, bottom: 2.h),
                 Obx(() {
-                  return authController.selectedImagePath.value == ''
+                  return selectedImagePath.value == ''
                       ? Align(
                           alignment: AlignmentDirectional.center,
                           child: GestureDetector(
-                            onTap: () =>
-                                authController.pickImage(ImageSource.gallery),
+                            onTap: () => _pickImage(ImageSource.gallery),
                             child: SizedBox(
                               height: 40.h,
                               child: DottedBorder(
@@ -89,15 +91,14 @@ class ProfilePictureScreen extends StatelessWidget {
                               borderRadius: const BorderRadiusDirectional.all(
                                   Radius.circular(20)),
                               child: Image.file(
-                                File(authController.selectedImagePath.value),
+                                File(selectedImagePath.value),
                                 height: 40.h,
-                                width: double.infinity,
+                                width: SizeConfig.width,
                                 fit: BoxFit.cover,
                               ),
                             ),
                             IconButton(
-                              onPressed: () =>
-                                  authController.selectedImagePath.value = '',
+                              onPressed: () => selectedImagePath.value = '',
                               icon: CircleAvatar(
                                 radius: 1.5.h,
                                 backgroundColor: AppColor.primaryColor,
@@ -118,12 +119,29 @@ class ProfilePictureScreen extends StatelessWidget {
       ),
       bottomNavigationBar: GetButton(
         'Confirm',
-        onTap: () => Get.offAll(() => const MyBottomNavBar()),
+        onTap: () {
+          if (selectedImagePath.value.isNotEmpty) {
+            Get.offAll(() => const MyBottomNavBar());
+          } else {
+            showSnackBar('Please select profile picture before next.', false);
+          }
+        },
       ).paddingOnly(
         right: 3.h,
         left: 3.h,
         bottom: 2.h,
       ),
     );
+  }
+
+  void _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      selectedImagePath.value = pickedFile.path;
+    } else {
+      selectedImagePath.value = '';
+      Get.snackbar('Error', 'No image selected',
+          snackPosition: SnackPosition.TOP);
+    }
   }
 }

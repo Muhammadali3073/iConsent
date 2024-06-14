@@ -10,20 +10,14 @@ import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnboardScreen extends StatefulWidget {
-  const OnboardScreen({super.key});
+class OnboardScreen extends StatelessWidget {
+  OnboardScreen({super.key});
 
-  @override
-  State<OnboardScreen> createState() => _OnboardScreenState();
-}
-
-class _OnboardScreenState extends State<OnboardScreen> {
-  int currentIndex = 0;
+  final currentIndex = 0.obs;
+  final pageController = PageController().obs;
 
   @override
   Widget build(BuildContext context) {
-    var pageController = PageController().obs;
-
     return Scaffold(
       body: SizedBox(
         height: SizeConfig.height,
@@ -36,7 +30,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                   physics: const ScrollPhysics(),
                   controller: pageController.value,
                   onPageChanged: (value) {
-                    currentIndex = value;
+                    currentIndex.value = value;
                   },
                   children: [
                     Column(

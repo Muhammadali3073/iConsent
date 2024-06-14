@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
+import 'package:i_consent/utils/data.dart';
+import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/home/all_agreements_screen.dart';
 import 'package:i_consent/view/home/article_details_screen.dart';
 import 'package:i_consent/view/home/articles_screen.dart';
 import 'package:i_consent/view/home/consent_activities_screen.dart';
+import 'package:i_consent/view/home/consent_form_screen.dart';
+import 'package:i_consent/view/home/notification_screen.dart';
 import 'package:i_consent/view/profile/user_profile_screen.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -18,10 +21,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: GetAssetImage(AppData.logo, scale: 0.9.h),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Get.to(() => const NotificationScreen()),
             icon: Icon(Icons.notifications_outlined, size: 4.h),
           )
         ],
@@ -111,7 +115,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: SizedBox(
-                width: double.infinity,
+                width: SizeConfig.width,
                 child: ClipRRect(
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(8)),
@@ -228,7 +232,7 @@ class HomeScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: Container(
-                width: double.infinity,
+                width: SizeConfig.width,
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(vertical: 0.5.h),
                 decoration: BoxDecoration(
@@ -242,9 +246,11 @@ class HomeScreen extends StatelessWidget {
               ),
             ).paddingOnly(bottom: 0.5.h),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const ConsentFormScreen(isReview: true));
+              },
               child: Container(
-                width: double.infinity,
+                width: SizeConfig.width,
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(vertical: 0.5.h),
                 decoration: BoxDecoration(
@@ -273,7 +279,7 @@ class HomeScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 2.4.h),
       child: SizedBox(
         height: 5.h,
-        width: double.infinity,
+        width: SizeConfig.width,
         child: OutlinedButton(
           onPressed: onPressed,
           style: ButtonStyle(
@@ -293,6 +299,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _handleCreateConsentFormPressed() {
-    Get.to(() => ConsentActivitiesScreen());
+    Get.to(() => ConsentActivitiesScreen(
+          indexConsentActivities: RxInt(1),
+          isEdit: RxBool(false),
+        ));
   }
 }

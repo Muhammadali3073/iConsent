@@ -106,6 +106,65 @@ mixin MyAppValidations {
     }
     return '';
   }
+
+  String editProfileScreenErrorHandler({
+    required TextEditingController name,
+    required TextEditingController email,
+    required TextEditingController location,
+    required TextEditingController dob,
+  }) {
+    if (name.text.isEmpty) {
+      return "Name must not be empty.";
+    }
+    if (email.text.isEmpty) {
+      return "Email must not be empty.";
+    }
+    if (location.text.isEmpty) {
+      return "Location must not be empty.";
+    }
+    if (dob.text.isEmpty) {
+      return "DOB must not be empty.";
+    }
+    return '';
+  }
+
+  String changePasswordScreenErrorHandler({
+    required TextEditingController oldPassword,
+    required TextEditingController newPassword,
+    required TextEditingController confirmNewPassword,
+  }) {
+    if (oldPassword.text.isEmpty) {
+      return "Old Password must not be empty.";
+    }
+    if (newPassword.text.isEmpty) {
+      return "New Password must not be empty.";
+    }
+    if (confirmNewPassword.text.isEmpty) {
+      return "Confirm New Password must not be empty.";
+    }
+    if (oldPassword.text.length < 8) {
+      return "Old Password must be at least 8 characters in length.";
+    }
+    if (newPassword.text.length < 8) {
+      return "New Password must be at least 8 characters in length.";
+    }
+    if (confirmNewPassword.text.length < 8) {
+      return "Confirm New Password must be at least 8 characters in length.";
+    }
+    if (!isValidPassword.hasMatch(oldPassword.text)) {
+      return "Old Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+    }
+    if (!isValidPassword.hasMatch(newPassword.text)) {
+      return "New Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+    }
+    if (!isValidPassword.hasMatch(confirmNewPassword.text)) {
+      return "Confirm New Password should contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+    }
+    if (newPassword.text != confirmNewPassword.text) {
+      return "New Passwords do not match.";
+    }
+    return '';
+  }
 }
 
 final RegExp isValidEmail =

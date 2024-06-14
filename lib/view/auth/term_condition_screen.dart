@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/controller/auth_controller.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/auth/gender_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
-import 'package:i_consent/widget/get_padding_spacing.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TermAndConditionScreen extends StatelessWidget {
   TermAndConditionScreen({super.key, this.isShowButton = true});
 
-  final AuthController authController = Get.find(tag: 'authController');
-
   final bool isShowButton;
+  final isCheckTermCondition = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +38,9 @@ class TermAndConditionScreen extends StatelessWidget {
                         checkColor: Colors.white,
                         side: const BorderSide(color: AppColor.greenColor),
                         fillColor: WidgetStateProperty.all(AppColor.greenColor),
-                        value: authController.isCheckTermCondition.value,
+                        value: isCheckTermCondition.value,
                         onChanged: (bool? value) {
-                          authController.isCheckTermCondition.value = value!;
+                          isCheckTermCondition.value = value!;
                         },
                       )),
                   const GetTextW4S14('I agree to above terms & conditions')
@@ -55,11 +53,13 @@ class TermAndConditionScreen extends StatelessWidget {
       ),
       bottomNavigationBar: isShowButton
           ? GetButton('Continue', onTap: () {
-              Get.to(() => GenderScreen());
+              isCheckTermCondition.value
+                  ? Get.to(() => GenderScreen())
+                  : showSnackBar('Please check Terms & Conditions', false);
             }).paddingOnly(
-              right: 3.h,
-              left: 3.h,
-              bottom: 2.h,
+              right: 2.h,
+              left: 2.h,
+              bottom: 3.h,
             )
           : const SizedBox.shrink(),
     );

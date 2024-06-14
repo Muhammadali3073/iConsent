@@ -1,11 +1,7 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/controller/auth_controller.dart';
-import 'package:i_consent/controller/profile_controller.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/utils.dart';
 import 'package:i_consent/view/onboarding/splash.dart';
@@ -20,15 +16,12 @@ Future<void> initApp() async {
 
   Utils.setStatusBarColor();
 
-  Get.put(AuthController(), tag: 'authController');
-  Get.put(ProfileController(), tag: 'profileController');
+  // runApp(DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => const MyApp(),
+  // ));
 
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MyApp(),
-  ));
-
-  // runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -56,9 +49,9 @@ class MyApp extends StatelessWidget {
         home: const SplashScreen(),
 
         // DevicePreview
-        useInheritedMediaQuery: true,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
+        // useInheritedMediaQuery: true,
+        // locale: DevicePreview.locale(context),
+        // builder: DevicePreview.appBuilder,
       );
     });
   }

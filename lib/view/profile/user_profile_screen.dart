@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/utils.dart';
+import 'package:i_consent/view/home/consent_form_screen.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -27,7 +27,7 @@ class UserProfileScreen extends StatelessWidget {
           children: [
             Container(
               height: 60.h,
-              width: double.infinity,
+              width: SizeConfig.width,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
@@ -150,7 +150,7 @@ class UserProfileScreen extends StatelessWidget {
       {bool isOutlined = false}) {
     return SizedBox(
       height: 5.h,
-      width: double.infinity,
+      width: SizeConfig.width,
       child: isOutlined
           ? OutlinedButton(
               onPressed: onPressed,
@@ -179,10 +179,10 @@ class UserProfileScreen extends StatelessWidget {
   }
 
   void _handleEditPressed() {
-    // Add save functionality
+    Get.to(() => const ConsentFormScreen(isEdit: true));
   }
 
   void _handleReviewPressed() {
-    // Add cancel functionality
+    Get.to(() => const ConsentFormScreen(isReview: true));
   }
 }

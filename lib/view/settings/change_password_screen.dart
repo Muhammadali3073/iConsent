@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/controller/profile_controller.dart';
 import 'package:i_consent/extensions/keyboard_dismiss_extension.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/forgot_passsword_screen.dart';
+import 'package:i_consent/utils/validations.dart';
+import 'package:i_consent/view/auth/forgot_password_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
+import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
+class ChangePasswordScreen extends StatelessWidget with MyAppValidations {
   ChangePasswordScreen({super.key});
 
-  final ProfileController profileController =
-      Get.find(tag: 'profileController');
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmNewPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +45,43 @@ class ChangePasswordScreen extends StatelessWidget {
                 ),
                 _buildPasswordField(
                   context,
-                  controller: profileController.oldPasswordController,
+                  controller: oldPasswordController,
                   hintText: '*******',
                 ),
                 const VerSpace(2),
                 _buildPasswordRow(context, 'Enter New Password'),
                 _buildPasswordField(
                   context,
-                  controller: profileController.newPasswordController,
+                  controller: newPasswordController,
                   hintText: '*******',
                 ),
                 const VerSpace(2),
                 _buildPasswordRow(context, 'Confirm New Password'),
                 _buildPasswordField(
                   context,
-                  controller: profileController.confirmNewPasswordController,
+                  controller: confirmNewPasswordController,
                   hintText: '*******',
                 ),
               ],
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: GetButton('Save', onTap: () {
+        final errorMessage = changePasswordScreenErrorHandler(
+          oldPassword: oldPasswordController,
+          newPassword: newPasswordController,
+          confirmNewPassword: confirmNewPasswordController,
+        );
+        if (errorMessage.isEmpty) {
+          showSnackBar('Changed password Successfully.', true);
+        } else {
+          showSnackBar(errorMessage, false);
+        }
+      }).paddingOnly(
+        right: 2.h,
+        left: 2.h,
+        bottom: 3.h,
       ),
     );
   }

@@ -16,28 +16,11 @@ import 'package:i_consent/widget/get_toast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class VerificationOTPScreen extends StatefulWidget with MyAppValidations {
-  const VerificationOTPScreen({super.key});
+class VerificationOTPScreen extends StatelessWidget with MyAppValidations {
+  VerificationOTPScreen({super.key});
 
-  @override
-  State<VerificationOTPScreen> createState() => _VerificationOTPScreenState();
-}
-
-class _VerificationOTPScreenState extends State<VerificationOTPScreen> {
-  TextEditingController otpController = TextEditingController();
-  StreamController<ErrorAnimationType>? errorController;
-
-  @override
-  void initState() {
-    super.initState();
-    errorController = StreamController<ErrorAnimationType>();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    errorController!.close();
-  }
+  final TextEditingController otpController = TextEditingController();
+  final StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +112,11 @@ class _VerificationOTPScreenState extends State<VerificationOTPScreen> {
               ),
               GetButton('Verify', onTap: () {
                 final errorMessage =
-                    widget.otpScreenErrorHandler(otp: otpController);
+                otpScreenErrorHandler(otp: otpController);
                 if (errorMessage.isEmpty) {
                   Get.to(() => ResetPasswordScreen());
                 } else {
-                  showScaffoldMessenger(context, errorMessage);
+                  showSnackBar(errorMessage, false);
                 }
               }).paddingOnly(bottom: 2.h),
             ],

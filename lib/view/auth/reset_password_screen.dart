@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
-import 'package:i_consent/controller/auth_controller.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
 import 'package:i_consent/view/auth/successfully_changed_password_screen.dart';
@@ -17,7 +16,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class ResetPasswordScreen extends StatelessWidget with MyAppValidations {
   ResetPasswordScreen({super.key});
 
-  final AuthController authController = Get.find(tag: 'authController');
+  final TextEditingController newPasswordForgotController =
+      TextEditingController();
+  final TextEditingController confirmNewPasswordForgotController =
+      TextEditingController();
+  final isShowConfirmNewPassword = false.obs;
+  final isShowNewPassword = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +46,17 @@ class ResetPasswordScreen extends StatelessWidget with MyAppValidations {
                         .paddingOnly(bottom: 1.4.h),
                     GetTextFormField(
                       'New Password',
-                      controller: authController.newPasswordForgotController,
-                      obscureText: authController.isShowNewPassword.value,
+                      controller: newPasswordForgotController,
+                      obscureText: isShowNewPassword.value,
                       keyboardType: TextInputType.visiblePassword,
                       prefixIcon: const GetSvgImage(
                         AppData.lockIcon,
                       ),
                       suffixIcon: GestureDetector(
                         onTap: () =>
-                            authController.toggleNewPasswordVisibility(),
+                            isShowNewPassword.value = !isShowNewPassword.value,
                         child: Icon(
-                          !authController.isShowNewPassword.value
+                          !isShowNewPassword.value
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           size: 2.5.h,
@@ -62,17 +66,15 @@ class ResetPasswordScreen extends StatelessWidget with MyAppValidations {
                     ).paddingOnly(bottom: 1.4.h),
                     GetTextFormField(
                       'Confirm New Password',
-                      controller:
-                          authController.confirmNewPasswordForgotController,
-                      obscureText:
-                          authController.isShowConfirmNewPassword.value,
+                      controller: confirmNewPasswordForgotController,
+                      obscureText: isShowConfirmNewPassword.value,
                       keyboardType: TextInputType.visiblePassword,
                       prefixIcon: const GetSvgImage(AppData.lockIcon),
                       suffixIcon: GestureDetector(
-                        onTap: () =>
-                            authController.toggleConfirmNewPasswordVisibility(),
+                        onTap: () => isShowConfirmNewPassword.value =
+                            !isShowConfirmNewPassword.value,
                         child: Icon(
-                          !authController.isShowConfirmNewPassword.value
+                          !isShowConfirmNewPassword.value
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           size: 2.5.h,
@@ -85,14 +87,13 @@ class ResetPasswordScreen extends StatelessWidget with MyAppValidations {
               ),
               GetButton('Set New Password', onTap: () {
                 final errorMessage = resetPasswordScreenErrorHandler(
-                  newPassword: authController.newPasswordForgotController,
-                  confirmNewPassword:
-                      authController.confirmNewPasswordForgotController,
+                  newPassword: newPasswordForgotController,
+                  confirmNewPassword: confirmNewPasswordForgotController,
                 );
                 if (errorMessage.isEmpty) {
                   Get.offAll(() => const SuccessfullyChangedPasswordScreen());
                 } else {
-                  showScaffoldMessenger(context, errorMessage);
+                  showSnackBar(errorMessage, false);
                 }
               }).paddingOnly(bottom: 2.h),
             ],

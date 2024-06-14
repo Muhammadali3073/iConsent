@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/constants/data.dart';
-import 'package:i_consent/controller/consent_activities_controller.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
+import 'package:i_consent/view/home/consent_form_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_check_list.dart';
@@ -15,21 +15,30 @@ import 'package:i_consent/widget/get_toast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ConsentActivitiesScreen extends StatelessWidget {
-  ConsentActivitiesScreen({super.key});
+  final RxInt indexConsentActivities;
+  final RxBool isEdit;
 
-  static var stepConsentActivitiesData = 1.obs;
+  ConsentActivitiesScreen({
+    super.key,
+    required this.indexConsentActivities,
+    required this.isEdit,
+  });
 
-  final ConsentActivitiesController controller =
-      Get.put(ConsentActivitiesController());
+  final TextEditingController certainSituationController =
+      TextEditingController();
+  final TextEditingController specificConditionController =
+      TextEditingController();
+  final TextEditingController additionalCustomizationController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => PopScope(
-        canPop: stepConsentActivitiesData.value == 1,
+        canPop: indexConsentActivities.value == 1 || isEdit.value,
         onPopInvoked: (didPop) {
-          if (!didPop && stepConsentActivitiesData.value > 1) {
-            stepConsentActivitiesData.value--;
+          if (!didPop && indexConsentActivities.value > 1) {
+            indexConsentActivities.value--;
           }
         },
         child: Scaffold(
@@ -55,16 +64,21 @@ class ConsentActivitiesScreen extends StatelessWidget {
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1.0),
-        child: StepperBar(RxInt(stepConsentActivitiesData.value)),
+        child: StepperBar(RxInt(indexConsentActivities.value)),
       ),
       actions: [
-        TextButton(
-          onPressed: _goNext,
-          child: const GetTextW4S14(
-            'Skip',
-            color: AppColor.primaryColor,
-          ),
-        ),
+        isEdit.value
+            ? const SizedBox.shrink()
+            : TextButton(
+                onPressed: () {
+                  _clearSelectedItems();
+                  _goNext();
+                },
+                child: const GetTextW4S14(
+                  'Skip',
+                  color: AppColor.primaryColor,
+                ),
+              ),
       ],
     );
   }
@@ -80,7 +94,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
   Widget _buildConsentActivitiesList() {
     return Obx(
       () {
-        final currentStep = stepConsentActivitiesData.value;
+        final currentStep = indexConsentActivities.value;
         final activityData = _getConsentActivityData(currentStep);
 
         return SingleChildScrollView(
@@ -107,14 +121,14 @@ class ConsentActivitiesScreen extends StatelessWidget {
                               .paddingOnly(bottom: 1.h, top: 1.h),
                           GetTextFormField(
                             'Specify here ...',
-                            controller: controller.certainSituationController,
+                            controller: certainSituationController,
                             maxLines: 3,
                           ).paddingOnly(bottom: 1.h),
                           const GetTextW5S16('With specific conditions')
                               .paddingOnly(bottom: 1.h),
                           GetTextFormField(
                             'Specify here ...',
-                            controller: controller.specificConditionController,
+                            controller: specificConditionController,
                             maxLines: 3,
                           ),
                         ],
@@ -124,7 +138,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
               else
                 GetTextFormField(
                   'Specify here ...',
-                  controller: controller.additionalCustomizationController,
+                  controller: additionalCustomizationController,
                   maxLines: 5,
                 ).paddingOnly(top: 1.h),
             ],
@@ -148,13 +162,23 @@ class ConsentActivitiesScreen extends StatelessWidget {
   Widget _buildBottomNavigationBar(BuildContext context) {
     return Obx(
       () => GetButton(
-        stepConsentActivitiesData.value == 13 ? 'Review' : 'Next',
+        isEdit.value
+            ? 'Save'
+            : indexConsentActivities.value == 13
+                ? 'Review'
+                : 'Next',
         onTap: () {
-          if (_isAnyItemChecked() || stepConsentActivitiesData.value == 13) {
-            _goNext();
+          if (isEdit.value) {
+            Get.back();
           } else {
-            showToast(
-                context, 'Please select at least one item before proceeding.');
+            if (_isAnyItemChecked() || indexConsentActivities.value == 13) {
+              _goNext();
+            } else {
+              showSnackBar(
+                'Please select at least one item before proceeding.',
+                false,
+              );
+            }
           }
         },
       ).paddingOnly(
@@ -163,13 +187,6 @@ class ConsentActivitiesScreen extends StatelessWidget {
         bottom: 2.h,
       ),
     );
-  }
-
-  bool _isAnyItemChecked() {
-    final currentStep = stepConsentActivitiesData.value;
-    final activityData = _getConsentActivityData(currentStep);
-    return activityData.consentActivitiesCheck!
-        .any((activity) => activity.isCheck!.value);
   }
 
   ConsentActivitiesData _getConsentActivityData(int currentStep) {
@@ -203,17 +220,34 @@ class ConsentActivitiesScreen extends StatelessWidget {
     }
   }
 
+  bool _isAnyItemChecked() {
+    final currentStep = indexConsentActivities.value;
+    final activityData = _getConsentActivityData(currentStep);
+    return activityData.consentActivitiesCheck!
+        .any((activity) => activity.isCheck!.value);
+  }
+
+  void _clearSelectedItems() {
+    final currentStep = indexConsentActivities.value;
+    final activityData = _getConsentActivityData(currentStep);
+    for (var activity in activityData.consentActivitiesCheck!) {
+      activity.isCheck!.value = false;
+    }
+  }
+
   void _goNext() {
-    final currentStep = stepConsentActivitiesData.value;
+    final currentStep = indexConsentActivities.value;
     if (currentStep < 13) {
-      stepConsentActivitiesData.value++;
+      indexConsentActivities.value++;
+    } else if (indexConsentActivities.value == 13) {
+      Get.off(const ConsentFormScreen());
     }
   }
 
   void _goBack() {
-    final currentStep = stepConsentActivitiesData.value;
-    if (currentStep > 1) {
-      stepConsentActivitiesData.value--;
+    final currentStep = indexConsentActivities.value;
+    if (currentStep > 1 && !isEdit.value) {
+      indexConsentActivities.value--;
     } else {
       Get.back();
     }

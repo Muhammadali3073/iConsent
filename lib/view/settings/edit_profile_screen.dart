@@ -2,21 +2,32 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
-import 'package:i_consent/controller/profile_controller.dart';
-import 'package:i_consent/extensions/keyboard_dismiss_extension.dart';
+import 'package:i_consent/utils/size_config/size_config.dart';
+import 'package:i_consent/utils/validations.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
-import 'package:i_consent/widget/get_padding_spacing.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatelessWidget with MyAppValidations {
   EditProfileScreen({super.key});
 
-  final ProfileController profileController =
-      Get.find(tag: 'profileController');
-
+  final TextEditingController nameEditProfileController =
+      TextEditingController(text: 'James Stone');
+  final TextEditingController emailEditProfileController =
+      TextEditingController(text: 'James_Stone0@gmail.com');
+  final TextEditingController locationEditProfileController =
+      TextEditingController(text: 'Chicago, Illinois');
+  final TextEditingController dobController =
+      TextEditingController(text: 'Feb 20, 2002');
+  final selectedDate = Rx<DateTime?>(null);
+  final selectedImagePath = ''.obs;
+  final isFullName = true.obs;
+  final isEmailAddress = true.obs;
+  final isLocation = true.obs;
   final FocusNode fullNameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode locationFocusNode = FocusNode();
@@ -24,19 +35,17 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: const GetAppBar(title: 'Edit Profile', centerTitle: false),
-      body: SafeArea(
-        child: Padding(
-          padding: Spacing.only(right: 2, left: 2),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildProfileForm(context),
-              _buildSaveCancelButtons(context),
-            ],
-          ),
-        ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const VerSpace(6),
+            Obx(() => _buildProfilePicture(context)),
+            _buildProfileForm(context),
+            const VerSpace(6),
+            _buildSaveCancelButtons(context),
+          ],
+        ).paddingSymmetric(horizontal: 2.h),
       ),
     );
   }
@@ -44,28 +53,30 @@ class EditProfileScreen extends StatelessWidget {
   Widget _buildProfileForm(BuildContext context) {
     return Column(
       children: [
-        Obx(() => _buildProfilePicture(context)),
-        const VerSpace(4),
+        const VerSpace(6),
         _buildEditableField(
-            context,
-            'Full Name',
-            fullNameFocusNode,
-            profileController.nameEditProfileController,
-            profileController.isFullName),
+          context,
+          'Full Name',
+          fullNameFocusNode,
+          nameEditProfileController,
+          isFullName,
+        ),
         const VerSpace(2),
         _buildEditableField(
-            context,
-            'Email Address',
-            emailFocusNode,
-            profileController.emailEditProfileController,
-            profileController.isEmailAddress),
+          context,
+          'Email Address',
+          emailFocusNode,
+          emailEditProfileController,
+          isEmailAddress,
+        ),
         const VerSpace(2),
         _buildEditableField(
-            context,
-            'Location',
-            locationFocusNode,
-            profileController.locationEditProfileController,
-            profileController.isLocation),
+          context,
+          'Location',
+          locationFocusNode,
+          locationEditProfileController,
+          isLocation,
+        ),
         const VerSpace(2),
         _buildDOBField(context),
       ],
@@ -90,11 +101,10 @@ class EditProfileScreen extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 6.h,
-          backgroundImage: profileController.selectedImagePath.value.isEmpty
+          backgroundImage: selectedImagePath.value.isEmpty
               ? const NetworkImage(
                   'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg')
-              : FileImage(File(profileController.selectedImagePath.value))
-                  as ImageProvider,
+              : FileImage(File(selectedImagePath.value)) as ImageProvider,
         ),
         Positioned(
           bottom: 0,
@@ -127,7 +137,7 @@ class EditProfileScreen extends StatelessWidget {
         }),
         Obx(() => _buildEditProfileField(context, controller, focusNode,
             readOnly: isReadOnly.value,
-            hintText: 'Enter $label.toLowerCase()')),
+            hintText: 'Enter ${label.toLowerCase()}')),
       ],
     );
   }
@@ -138,12 +148,12 @@ class EditProfileScreen extends StatelessWidget {
         _buildEditProfileRow(context, 'DOB'),
         _buildEditProfileField(
           context,
-          profileController.dobController,
+          dobController,
           null,
           hintText: 'Select DOB',
           isDOB: true,
           readOnly: true,
-          onTap: () => profileController.selectDOB(context),
+          onTap: () => _selectDOB(context),
         ),
       ],
     );
@@ -182,7 +192,6 @@ class EditProfileScreen extends StatelessWidget {
       cursorColor: Colors.black,
       textInputAction: TextInputAction.next,
       onTap: onTap,
-      onTapOutside: (event) => context.dismissKeyboard(),
       style: TextStyle(fontSize: 16.sp),
       decoration: InputDecoration(
         enabledBorder: const UnderlineInputBorder(
@@ -214,7 +223,7 @@ class EditProfileScreen extends StatelessWidget {
       {bool isOutlined = false}) {
     return SizedBox(
       height: 5.h,
-      width: double.infinity,
+      width: SizeConfig.width,
       child: isOutlined
           ? OutlinedButton(
               onPressed: onPressed,
@@ -252,7 +261,7 @@ class EditProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.photo_library),
               title: const Text('Photo Library'),
               onTap: () {
-                profileController.pickImage(ImageSource.gallery);
+                _pickImage(ImageSource.gallery);
                 Navigator.of(context).pop();
               },
             ),
@@ -260,7 +269,7 @@ class EditProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.photo_camera),
               title: const Text('Camera'),
               onTap: () {
-                profileController.pickImage(ImageSource.camera);
+                _pickImage(ImageSource.camera);
                 Navigator.of(context).pop();
               },
             ),
@@ -271,10 +280,59 @@ class EditProfileScreen extends StatelessWidget {
   }
 
   void _handleSavePressed() {
-    // Add save functionality
+    final errorMessage = editProfileScreenErrorHandler(
+      name: nameEditProfileController,
+      email: emailEditProfileController,
+      location: locationEditProfileController,
+      dob: dobController,
+    );
+    if (errorMessage.isEmpty) {
+      showSnackBar('Profile updated Successfully.', true);
+    } else {
+      showSnackBar(errorMessage, false);
+    }
   }
 
   void _handleCancelPressed() {
     // Add cancel functionality
+  }
+
+  Future<void> _selectDOB(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppColor.primaryColor,
+            colorScheme:
+                const ColorScheme.light(primary: AppColor.primaryColor),
+            buttonTheme: const ButtonThemeData(
+              textTheme: ButtonTextTheme.primary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null && picked != selectedDate.value) {
+      selectedDate.value = picked;
+      dobController.text =
+          DateFormat('MMM d, yyyy').format(selectedDate.value!);
+    }
+  }
+
+  void _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      selectedImagePath.value = pickedFile.path;
+    } else {
+      selectedImagePath.value = '';
+      Get.snackbar('Error', 'No image selected',
+          snackPosition: SnackPosition.TOP);
+    }
   }
 }

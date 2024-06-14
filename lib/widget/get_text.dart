@@ -76,6 +76,7 @@ class GetTextW5S16 extends StatelessWidget {
   final Color? color;
   final TextAlign? textAlign;
   final TextOverflow? overflow;
+  final int? maxLines;
 
   const GetTextW5S16(
     this.text, {
@@ -83,6 +84,7 @@ class GetTextW5S16 extends StatelessWidget {
     this.color,
     this.textAlign,
     this.overflow,
+    this.maxLines,
   });
 
   @override
@@ -91,6 +93,7 @@ class GetTextW5S16 extends StatelessWidget {
       text.toString(),
       textAlign: textAlign,
       overflow: overflow,
+      maxLines: maxLines,
       style: TextStyle(
         color: color ?? AppColor.darkBlackColor,
         fontSize: 16.sp,
@@ -99,6 +102,39 @@ class GetTextW5S16 extends StatelessWidget {
     );
   }
 }
+
+class GetTextBS16 extends StatelessWidget {
+  final String text;
+  final Color? color;
+  final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final int? maxLines;
+
+  const GetTextBS16(
+    this.text, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.overflow,
+    this.maxLines,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text.toString(),
+      textAlign: textAlign,
+      overflow: overflow,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color ?? AppColor.darkBlackColor,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
 class GetTextBS17 extends StatelessWidget {
   final String text;
   final Color? color;
@@ -188,11 +224,13 @@ class GetTextW6S19 extends StatelessWidget {
     );
   }
 }
+
 class GetTextW6S18 extends StatelessWidget {
   final String text;
   final Color? color;
   final TextAlign? textAlign;
   final TextOverflow? overflow;
+  final int? maxLines;
 
   const GetTextW6S18(
     this.text, {
@@ -200,6 +238,7 @@ class GetTextW6S18 extends StatelessWidget {
     this.color,
     this.textAlign,
     this.overflow,
+    this.maxLines,
   });
 
   @override
@@ -208,6 +247,7 @@ class GetTextW6S18 extends StatelessWidget {
       text.toString(),
       textAlign: textAlign,
       overflow: overflow,
+      maxLines: maxLines,
       style: TextStyle(
         color: color ?? AppColor.darkBlackColor,
         fontSize: 18.sp,
@@ -223,7 +263,6 @@ class GetTextW4S13 extends StatelessWidget {
   final TextAlign? textAlign;
   final TextOverflow? overflow;
   final int? maxLines;
-
 
   const GetTextW4S13(
     this.text, {
@@ -257,7 +296,6 @@ class GetTextW4S12 extends StatelessWidget {
   final TextOverflow? overflow;
   final int? maxLines;
 
-
   const GetTextW4S12(
     this.text, {
     super.key,
@@ -277,6 +315,38 @@ class GetTextW4S12 extends StatelessWidget {
       style: TextStyle(
         color: color ?? AppColor.darkBlackColor,
         fontSize: 13.sp,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+}
+
+class GetTextW4S11 extends StatelessWidget {
+  final String text;
+  final Color? color;
+  final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final int? maxLines;
+
+  const GetTextW4S11(
+    this.text, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.overflow,
+    this.maxLines,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text.toString(),
+      textAlign: textAlign,
+      overflow: overflow,
+      maxLines: maxLines,
+      style: TextStyle(
+        color: color ?? AppColor.darkBlackColor,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w400,
       ),
     );

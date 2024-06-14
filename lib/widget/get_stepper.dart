@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
+import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class StepperBar extends StatelessWidget {
@@ -12,7 +13,7 @@ class StepperBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => SizedBox(
-        width: double.infinity,
+        width: SizeConfig.width,
         height: 1.h,
         child: Stack(
           children: [
