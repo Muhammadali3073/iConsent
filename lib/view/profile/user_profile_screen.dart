@@ -4,7 +4,10 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/utils.dart';
+import 'package:i_consent/view/chat/inbox_chat_screen.dart';
 import 'package:i_consent/view/home/consent_form_screen.dart';
+import 'package:i_consent/view/home/review_agreement_screen.dart';
+import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -44,7 +47,7 @@ class UserProfileScreen extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        const Row(
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -69,10 +72,17 @@ class UserProfileScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            GetSvgImage(
-                              AppData.chatIcon,
-                              color: AppColor.primaryColor,
-                              height: 4,
+                            GestureDetector(
+                              onTap: () => Get.to(() => InboxChatScreen(
+                                    profilePic: RxString(
+                                        'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740'),
+                                    name: RxString('Jessica Parker'),
+                                  )),
+                              child: GetSvgImage(
+                                AppData.chatIcon,
+                                color: AppColor.primaryColor,
+                                height: 4,
+                              ),
                             )
                           ],
                         ),
@@ -152,37 +162,26 @@ class UserProfileScreen extends StatelessWidget {
       height: 5.h,
       width: SizeConfig.width,
       child: isOutlined
-          ? OutlinedButton(
-              onPressed: onPressed,
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(backgroundColor),
-                foregroundColor: WidgetStateProperty.all<Color>(textColor),
-                overlayColor: WidgetStateProperty.all<Color>(
-                    AppColor.primaryColor.withOpacity(0.3)),
-                side: WidgetStateProperty.all<BorderSide>(
-                    const BorderSide(color: AppColor.darkBlackColor, width: 1)),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-              ),
-              child: GetTextW4S16(label, color: textColor),
+          ? GetOutlineButton(
+              label,
+              onTap: onPressed,
+              buttonColor: backgroundColor,
+              textColor: textColor,
             )
-          : MaterialButton(
-              onPressed: onPressed,
-              color: backgroundColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: GetTextW4S16(label, color: textColor),
+          : GetButton(
+              label,
+              onTap: onPressed,
+              buttonColor: backgroundColor,
+              textColor: textColor,
             ),
     );
   }
 
   void _handleEditPressed() {
-    Get.to(() => const ConsentFormScreen(isEdit: true));
+    Get.to(() => const ConsentFormScreen());
   }
 
   void _handleReviewPressed() {
-    Get.to(() => const ConsentFormScreen(isReview: true));
+    Get.to(() => const ReviewAgreementScreen());
   }
 }

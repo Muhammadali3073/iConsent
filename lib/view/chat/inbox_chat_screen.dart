@@ -50,10 +50,10 @@ class InboxChatScreen extends StatelessWidget {
             backgroundImage: NetworkImage(profilePic.value),
           ),
           const HorSpace(1),
-          GetTextW6S19(name.value),
+          GetTextW5S16(name.value),
         ],
       ),
-      centerTitle: false,
+      centerTitle: true,
       leadingWidth: 4.h,
       actions: [
         IconButton(
@@ -158,9 +158,9 @@ class InboxChatScreen extends StatelessWidget {
             () => ListView.builder(
               itemCount: AppData.messages.length,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final message =
-                    AppData.messages[index];
+                final message = AppData.messages[index];
                 final isOther = message.sender == name.value;
                 return _buildMessageBubble(message, isOther);
               },

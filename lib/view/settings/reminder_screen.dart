@@ -18,7 +18,7 @@ class ReminderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const GetAppBar(title: 'Reminder', centerTitle: false),
+      appBar: const GetAppBar(title: 'Reminder', centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,

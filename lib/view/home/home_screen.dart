@@ -7,9 +7,10 @@ import 'package:i_consent/view/home/all_agreements_screen.dart';
 import 'package:i_consent/view/home/article_details_screen.dart';
 import 'package:i_consent/view/home/articles_screen.dart';
 import 'package:i_consent/view/home/consent_activities_screen.dart';
-import 'package:i_consent/view/home/consent_form_screen.dart';
 import 'package:i_consent/view/home/notification_screen.dart';
+import 'package:i_consent/view/home/review_agreement_screen.dart';
 import 'package:i_consent/view/profile/user_profile_screen.dart';
+import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => Get.to(() => const NotificationScreen()),
-            icon: Icon(Icons.notifications_outlined, size: 4.h),
+            icon: Icon(Icons.notifications_outlined, size: 3.5.h),
           )
         ],
         toolbarHeight: 12.h,
@@ -247,7 +248,7 @@ class HomeScreen extends StatelessWidget {
             ).paddingOnly(bottom: 0.5.h),
             GestureDetector(
               onTap: () {
-                Get.to(() => const ConsentFormScreen(isReview: true));
+                Get.to(() => const ReviewAgreementScreen());
               },
               child: Container(
                 width: SizeConfig.width,
@@ -280,28 +281,17 @@ class HomeScreen extends StatelessWidget {
       child: SizedBox(
         height: 5.h,
         width: SizeConfig.width,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all<Color>(backgroundColor),
-            foregroundColor: WidgetStateProperty.all<Color>(textColor),
-            overlayColor: WidgetStateProperty.all<Color>(
-                AppColor.primaryColor.withOpacity(0.3)),
-            side: WidgetStateProperty.all<BorderSide>(
-                const BorderSide(color: AppColor.darkBlackColor, width: 1)),
-            shape: WidgetStateProperty.all<OutlinedBorder>(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-          ),
-          child: GetTextW4S16(label, color: textColor),
+        child: GetOutlineButton(
+          'Create consent form',
+          onTap: onPressed,
+          buttonColor: backgroundColor,
+          textColor: textColor,
         ),
       ),
     );
   }
 
   void _handleCreateConsentFormPressed() {
-    Get.to(() => ConsentActivitiesScreen(
-          indexConsentActivities: RxInt(1),
-          isEdit: RxBool(false),
-        ));
+    Get.to(() => ConsentActivitiesScreen(indexConsentActivities: RxInt(1)));
   }
 }

@@ -13,7 +13,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'Notifications', centerTitle: false),
+      appBar: const GetAppBar(title: 'Notifications', centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,

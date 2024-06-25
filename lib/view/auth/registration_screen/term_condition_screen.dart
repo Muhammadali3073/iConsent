@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/gender_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/gender_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_spacing.dart';
@@ -19,7 +19,7 @@ class TermAndConditionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'Terms & Conditions', centerTitle: false),
+      appBar: const GetAppBar(title: 'Terms & Conditions', centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,

@@ -5,6 +5,7 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/home/consent_form_screen.dart';
+import 'package:i_consent/view/home/review_update_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_check_list.dart';
@@ -16,12 +17,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ConsentActivitiesScreen extends StatelessWidget {
   final RxInt indexConsentActivities;
-  final RxBool isEdit;
+  final bool? isEdit;
 
   ConsentActivitiesScreen({
     super.key,
     required this.indexConsentActivities,
-    required this.isEdit,
+    this.isEdit = false,
   });
 
   final TextEditingController certainSituationController =
@@ -35,7 +36,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => PopScope(
-        canPop: indexConsentActivities.value == 1 || isEdit.value,
+        canPop: indexConsentActivities.value == 1 || isEdit!,
         onPopInvoked: (didPop) {
           if (!didPop && indexConsentActivities.value > 1) {
             indexConsentActivities.value--;
@@ -53,9 +54,12 @@ class ConsentActivitiesScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return GetAppBar(
       title: 'Consent Activities',
-      centerTitle: false,
+      centerTitle: true,
       leading: IconButton(
-        onPressed: _goBack,
+        onPressed: () {
+          _clearSelectedItems();
+          _goBack();
+        },
         icon: Icon(
           Theme.of(context).platform == TargetPlatform.iOS
               ? CupertinoIcons.back
@@ -64,10 +68,18 @@ class ConsentActivitiesScreen extends StatelessWidget {
       ),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1.0),
-        child: StepperBar(RxInt(indexConsentActivities.value)),
+        child: isEdit!
+            ? PreferredSize(
+                preferredSize: const Size.fromHeight(1.0),
+                child: Container(
+                  color: AppColor.darkBlackColor.withOpacity(0.1),
+                  height: 1,
+                ),
+              )
+            : StepperBar(RxInt(indexConsentActivities.value)),
       ),
       actions: [
-        isEdit.value
+        isEdit!
             ? const SizedBox.shrink()
             : TextButton(
                 onPressed: () {
@@ -160,32 +172,28 @@ class ConsentActivitiesScreen extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
-    return Obx(
-      () => GetButton(
-        isEdit.value
-            ? 'Save'
-            : indexConsentActivities.value == 13
-                ? 'Review'
-                : 'Next',
-        onTap: () {
-          if (isEdit.value) {
-            Get.back();
+    return GetButton(
+      isEdit! ? 'Save Changes' : 'Next',
+      onTap: () {
+        if (_isAnyItemChecked() || indexConsentActivities.value == 13) {
+          _getConsentActivityData(indexConsentActivities.value).isSkip =
+              RxBool(false);
+          if (isEdit!) {
+            Get.to(() => const ReviewUpdateScreen());
           } else {
-            if (_isAnyItemChecked() || indexConsentActivities.value == 13) {
-              _goNext();
-            } else {
-              showSnackBar(
-                'Please select at least one item before proceeding.',
-                false,
-              );
-            }
+            _goNext();
           }
-        },
-      ).paddingOnly(
-        right: 3.w,
-        left: 3.w,
-        bottom: 2.h,
-      ),
+        } else {
+          showSnackBar(
+            'Please select at least one item before proceeding.',
+            false,
+          );
+        }
+      },
+    ).paddingOnly(
+      right: 3.w,
+      left: 3.w,
+      bottom: 2.h,
     );
   }
 
@@ -230,6 +238,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
   void _clearSelectedItems() {
     final currentStep = indexConsentActivities.value;
     final activityData = _getConsentActivityData(currentStep);
+    activityData.isSkip = RxBool(true);
     for (var activity in activityData.consentActivitiesCheck!) {
       activity.isCheck!.value = false;
     }
@@ -240,13 +249,13 @@ class ConsentActivitiesScreen extends StatelessWidget {
     if (currentStep < 13) {
       indexConsentActivities.value++;
     } else if (indexConsentActivities.value == 13) {
-      Get.off(const ConsentFormScreen());
+      Get.off(() => const ConsentFormScreen());
     }
   }
 
   void _goBack() {
     final currentStep = indexConsentActivities.value;
-    if (currentStep > 1 && !isEdit.value) {
+    if (currentStep > 1 && !isEdit!) {
       indexConsentActivities.value--;
     } else {
       Get.back();

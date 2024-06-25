@@ -4,8 +4,8 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
-import 'package:i_consent/view/auth/forgot_password_screen.dart';
-import 'package:i_consent/view/auth/sign_up_screen.dart';
+import 'package:i_consent/view/auth/forgot_password_screen/forgot_password_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/signup_screen.dart';
 import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
@@ -154,19 +154,22 @@ class LoginScreen extends StatelessWidget with MyAppValidations {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    return GetButton(
-      'Login',
-      onTap: () {
-        final errorMessage = loginScreenErrorHandler(
-          email: emailLoginController,
-          password: passwordLoginController,
-        );
-        if (errorMessage.isEmpty) {
-          Get.off(() => const MyBottomNavBar());
-        } else {
-          showSnackBar(errorMessage, false);
-        }
-      },
+    return SizedBox(
+      width: SizeConfig.width,
+      child: GetButton(
+        'Login',
+        onTap: () {
+          final errorMessage = loginScreenErrorHandler(
+            email: emailLoginController,
+            password: passwordLoginController,
+          );
+          if (errorMessage.isEmpty) {
+            Get.off(() => MyBottomNavBar(selectedIndexBottomNavBar: RxInt(1)));
+          } else {
+            showSnackBar(errorMessage, false);
+          }
+        },
+      ),
     );
   }
 

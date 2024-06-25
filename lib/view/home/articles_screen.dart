@@ -14,7 +14,7 @@ class ArticlesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'Articles', centerTitle: false),
+      appBar: const GetAppBar(title: 'Articles', centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,

@@ -85,7 +85,7 @@ class GetTextFormField extends StatelessWidget {
             borderRadius: BorderRadius.circular(0.8.h)),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.8.h)),
         contentPadding: EdgeInsets.symmetric(
-          vertical: vertical ?? 1.4.h,
+          vertical: vertical ?? 1.2.h,
           horizontal: 1.6.h,
         ),
         suffixIconConstraints: BoxConstraints.tightFor(

@@ -19,7 +19,7 @@ class FeedbackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'Feedback & Support', centerTitle: false),
+      appBar: const GetAppBar(title: 'Feedback & Support', centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,

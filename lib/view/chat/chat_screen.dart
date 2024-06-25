@@ -19,14 +19,11 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: GetAppBar(
         title: 'Chat',
-        centerTitle: false,
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {},
-              icon: GetSvgImage(
-                AppData.addChatIcon,
-                height: 0.4.h,
-              ))
+              icon: GetSvgImage(AppData.addChatIcon, height: 0.3.h))
         ],
       ),
       body: SizedBox(
@@ -141,13 +138,14 @@ class ChatScreen extends StatelessWidget {
                                       ),
                                       const HorSpace(2),
                                       Container(
-                                        padding: EdgeInsets.all(0.7.h),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 0.6.h, vertical: 0.2.h),
                                         alignment: Alignment.center,
                                         decoration: const BoxDecoration(
                                           color: AppColor.primaryColor,
-                                          shape: BoxShape.circle,
+                                          borderRadius: BorderRadiusDirectional.all(Radius.circular(20))
                                         ),
-                                        child: GetTextW4S12(
+                                        child: GetTextW4S11(
                                           AppData.chatsData[index].newMsgCount,
                                           color: AppColor.whiteColor,
                                         ),

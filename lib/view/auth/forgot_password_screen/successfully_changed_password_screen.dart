@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/login_in_screen.dart';
+import 'package:i_consent/view/auth/login_screen.dart';
 import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
@@ -46,7 +46,8 @@ class SuccessfullyChangedPasswordScreen extends StatelessWidget {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () => Get.off(() => const MyBottomNavBar()),
+                onTap: () =>
+                    MyBottomNavBar(selectedIndexBottomNavBar: RxInt(1)),
                 child: Text(
                   'Go to Home',
                   style: TextStyle(

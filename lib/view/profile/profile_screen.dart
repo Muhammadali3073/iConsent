@@ -4,9 +4,10 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/utils.dart';
-import 'package:i_consent/view/auth/login_in_screen.dart';
+import 'package:i_consent/view/auth/login_screen.dart';
 import 'package:i_consent/view/settings/edit_profile_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
+import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -21,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: GetAppBar(
         title: 'Profile',
-        centerTitle: false,
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => _logout(context),
@@ -93,25 +94,9 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildEditProfileButton() {
-    return OutlinedButton(
-      onPressed: () => Get.to(() => EditProfileScreen()),
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(AppColor.whiteColor),
-        foregroundColor: WidgetStateProperty.all<Color>(
-            AppColor.darkBlackColor.withOpacity(0.2)),
-        overlayColor: WidgetStateProperty.all<Color>(
-          AppColor.darkBlackColor.withOpacity(0.3),
-        ),
-        side: WidgetStateProperty.all<BorderSide>(
-          const BorderSide(color: AppColor.darkBlackColor, width: 1),
-        ),
-        shape: WidgetStateProperty.all<OutlinedBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      child: const GetTextW5S16('Edit Profile'),
+    return GetOutlineButton(
+      'Edit Profile',
+      onTap: () => Get.to(() => EditProfileScreen()),
     );
   }
 }

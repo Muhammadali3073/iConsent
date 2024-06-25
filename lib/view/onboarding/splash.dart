@@ -16,28 +16,41 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.primaryColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-              width: SizeConfig.width,
-              child: GetAssetImage(
-                AppData.splashImage,
-                height: 9.h,
-                boxFit: BoxFit.contain,
-              )),
-          const GetTextW3S14(
-            'iConsent is your go-to for ensuring every intimate moment is safe and consensual. Prioritize respect and communication in every experience!',
-            color: AppColor.whiteColor,
-            textAlign: TextAlign.center,
-          ).paddingSymmetric(horizontal: 3.8.h),
-          GetButton(
-            'Get Started',
-            buttonColor: AppColor.whiteColor,
-            textColor: AppColor.primaryColor,
-            onTap: () => Get.off(() => OnboardScreen()),
-          ).paddingOnly(right: 3.h, left: 3.h, bottom: 3.h),
-        ],
+      body: SizedBox(
+        height: SizeConfig.height,
+        width: SizeConfig.width,
+        child: Column(
+          children: [
+            SizedBox(
+                height: SizeConfig.height / 1.3,
+                width: SizeConfig.width,
+                child: const GetAssetImage(
+                  AppData.splashImage,
+                  boxFit: BoxFit.contain,
+                )),
+            const Spacer(),
+            Column(
+              children: [
+                const GetTextW3S14(
+                  'iConsent is your go-to for ensuring every intimate moment is safe and consensual. Prioritize respect and communication in every experience!',
+                  color: AppColor.whiteColor,
+                  textAlign: TextAlign.center,
+                ).paddingSymmetric(
+                  horizontal: 2.h,
+                ),
+                SizedBox(
+                  width: SizeConfig.width,
+                  child: GetButton(
+                    'Get Started',
+                    buttonColor: AppColor.whiteColor,
+                    textColor: AppColor.primaryColor,
+                    onTap: () => Get.off(() => OnboardScreen()),
+                  ).paddingOnly(right: 2.h, left: 2.h, bottom: 3.h, top: 3.h),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
+import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
 import 'package:i_consent/widget/get_toast.dart';
@@ -35,7 +36,7 @@ class EditProfileScreen extends StatelessWidget with MyAppValidations {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'Edit Profile', centerTitle: false),
+      appBar: const GetAppBar(title: 'Edit Profile', centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -225,28 +226,17 @@ class EditProfileScreen extends StatelessWidget with MyAppValidations {
       height: 5.h,
       width: SizeConfig.width,
       child: isOutlined
-          ? OutlinedButton(
-              onPressed: onPressed,
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(backgroundColor),
-                foregroundColor: WidgetStateProperty.all<Color>(textColor),
-                overlayColor: WidgetStateProperty.all<Color>(
-                    AppColor.primaryColor.withOpacity(0.3)),
-                side: WidgetStateProperty.all<BorderSide>(
-                    const BorderSide(color: AppColor.darkBlackColor, width: 1)),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-              ),
-              child: GetTextW4S16(label, color: textColor),
+          ? GetOutlineButton(
+              label,
+              onTap: onPressed,
+              buttonColor: backgroundColor,
+              textColor: textColor,
             )
-          : MaterialButton(
-              onPressed: onPressed,
-              color: backgroundColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: GetTextW4S16(label, color: textColor),
+          : GetButton(
+              label,
+              onTap: onPressed,
+              buttonColor: backgroundColor,
+              textColor: textColor,
             ),
     );
   }

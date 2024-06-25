@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/utils.dart';
-import 'package:i_consent/view/auth/login_in_screen.dart';
-import 'package:i_consent/view/auth/term_condition_screen.dart';
+import 'package:i_consent/view/auth/login_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/term_condition_screen.dart';
 import 'package:i_consent/view/settings/change_password_screen.dart';
 import 'package:i_consent/view/settings/edit_profile_screen.dart';
 import 'package:i_consent/view/settings/feedback_screen.dart';
@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: const GetAppBar(
         title: 'Settings',
-        centerTitle: false,
+        centerTitle: true,
       ),
       body: SizedBox(
         height: SizeConfig.height,

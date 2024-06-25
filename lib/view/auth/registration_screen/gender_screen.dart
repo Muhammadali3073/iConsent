@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/location_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/location_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
@@ -23,7 +23,7 @@ class GenderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: GetAppBar(
-        title: 'Gender',
+        title: 'About me',
         actions: [
           TextButton(
             onPressed: () {
@@ -106,7 +106,7 @@ class GenderScreen extends StatelessWidget {
                                 color: selectedIndexGender.value == index
                                     ? AppColor.whiteColor
                                     : AppColor.darkBlackColor,
-                              ).paddingSymmetric(vertical: 1.4.h),
+                              ).paddingSymmetric(vertical: 1.2.h),
                             ],
                           ),
                         ).paddingOnly(bottom: 1.h),
@@ -139,7 +139,7 @@ class GenderScreen extends StatelessWidget {
                         color: selectedIndexGender.value == 5
                             ? AppColor.whiteColor
                             : AppColor.darkBlackColor,
-                      ).paddingSymmetric(vertical: 1.4.h, horizontal: 1.6.h),
+                      ).paddingSymmetric(vertical: 1.2.h, horizontal: 1.6.h),
                     ),
                   ),
                 ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/login_in_screen.dart';
-import 'package:i_consent/view/auth/sign_up_screen.dart';
+import 'package:i_consent/view/auth/login_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/signup_screen.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -37,20 +37,20 @@ class OnboardScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const SizedBox.shrink(),
-                        const GetTextW4S14(
+                        const GetTextW3S14(
                           'Tailor your experience by setting your unique comfort levels and preferences.',
                           textAlign: TextAlign.center,
-                        ).paddingSymmetric(horizontal: 3.h),
+                        ).paddingSymmetric(horizontal: 2.h),
                       ],
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const SizedBox.shrink(),
-                        const GetTextW4S14(
+                        const GetTextW3S14(
                           'Use the app\'s reminder features to schedule regular check-ins and consent updates.',
                           textAlign: TextAlign.center,
-                        ).paddingSymmetric(horizontal: 3.h),
+                        ).paddingSymmetric(horizontal: 2.h),
                       ],
                     ),
                   ],
@@ -69,10 +69,13 @@ class OnboardScreen extends StatelessWidget {
                     controller: pageController.value,
                     count: 2,
                   ).paddingOnly(bottom: 4.h),
-                  GetButton(
-                    'Create an account',
-                    onTap: () => Get.off(() => SignUpScreen()),
-                  ).paddingSymmetric(horizontal: 3.h),
+                  SizedBox(
+                    width: SizeConfig.width,
+                    child: GetButton(
+                      'Create an account',
+                      onTap: () => Get.off(() => SignUpScreen()),
+                    ).paddingSymmetric(horizontal: 2.h),
+                  ),
                   GestureDetector(
                     onTap: () => Get.off(() => LoginScreen()),
                     child: RichText(
@@ -95,7 +98,7 @@ class OnboardScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ).paddingOnly(top: 2.h, bottom: 2.h),
+                  ).paddingOnly(top: 2.h, bottom: 3.h),
                 ],
               ),
             ],

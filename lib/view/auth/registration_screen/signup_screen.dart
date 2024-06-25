@@ -4,8 +4,8 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/utils/validations.dart';
-import 'package:i_consent/view/auth/login_in_screen.dart';
-import 'package:i_consent/view/auth/term_condition_screen.dart';
+import 'package:i_consent/view/auth/login_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/term_condition_screen.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_image.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
@@ -37,7 +37,7 @@ class SignUpScreen extends StatelessWidget with MyAppValidations {
           height: SizeConfig.height,
           width: SizeConfig.width,
           child: Padding(
-            padding: Spacing.only(right: 3, left: 3),
+            padding: Spacing.only(right: 2, left: 2),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,21 +78,24 @@ class SignUpScreen extends StatelessWidget with MyAppValidations {
                 ),
                 _buildDividerWithText('or'),
                 _buildSocialButtons(),
-                GetButton(
-                  'Register',
-                  onTap: () {
-                    final errorMessage = signupScreenErrorHandler(
-                      name: nameSignUpController,
-                      email: emailSignUpController,
-                      setPassword: setPasswordSignUpController,
-                      confirmPassword: confirmPasswordSignUpController,
-                    );
-                    if (errorMessage.isEmpty) {
-                      Get.to(() => TermAndConditionScreen());
-                    } else {
-                      showSnackBar(errorMessage, false);
-                    }
-                  },
+                SizedBox(
+                  width: SizeConfig.width,
+                  child: GetButton(
+                    'Register',
+                    onTap: () {
+                      final errorMessage = signupScreenErrorHandler(
+                        name: nameSignUpController,
+                        email: emailSignUpController,
+                        setPassword: setPasswordSignUpController,
+                        confirmPassword: confirmPasswordSignUpController,
+                      );
+                      if (errorMessage.isEmpty) {
+                        Get.to(() => TermAndConditionScreen());
+                      } else {
+                        showSnackBar(errorMessage, false);
+                      }
+                    },
+                  ),
                 ),
                 _buildLoginText(),
               ],

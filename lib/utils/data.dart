@@ -44,6 +44,12 @@ class AppData {
     GenderData(transIcon, 'Trans-woman'),
   ];
 
+  static final List<String> iWantToList = [
+    'Create Consent Form',
+    'Modify an existing consent form',
+    'Cancel an existing consent form',
+  ];
+
   static final List<SettingTileModel> settingsTileDataList = [
     SettingTileModel(editProfileIcon, 'Edit Profile', true),
     SettingTileModel(reminderIcon, 'Reminder', true),
@@ -62,6 +68,7 @@ class AppData {
 
   static final ConsentActivitiesData kissingConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Kissing',
     question: 'Please select your preferences for kissing.',
     consentActivitiesCheck: [
@@ -74,13 +81,14 @@ class AppData {
 
   static final ConsentActivitiesData touchingConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(false),
     type: 'Touching',
     question: 'Please select your preferences for touching.',
     consentActivitiesCheck: [
       ConsentActivitiesCheck('Holding hands', RxBool(false)),
       ConsentActivitiesCheck('Hugging', RxBool(false)),
       ConsentActivitiesCheck('Cuddling', RxBool(false)),
-      ConsentActivitiesCheck('Caressing face', RxBool(false)),
+      ConsentActivitiesCheck('Caressing face', RxBool(true)),
       ConsentActivitiesCheck('Touching arms', RxBool(false)),
       ConsentActivitiesCheck('Touching back', RxBool(false)),
       ConsentActivitiesCheck('Touching legs', RxBool(false)),
@@ -89,14 +97,13 @@ class AppData {
 
   static final ConsentActivitiesData sexualTouchingConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(false),
     type: 'Sexual Touching',
     question: 'Please select your preferences for sexual touching.',
     consentActivitiesCheck: [
       ConsentActivitiesCheck('Touching breast/chest', RxBool(false)),
       ConsentActivitiesCheck(
-          'Touching genitals (over clothing)', RxBool(false)),
-      ConsentActivitiesCheck(
-          'Touching genitals (over clothing)', RxBool(false)),
+          'Touching genitals (over clothing)', RxBool(true)),
       ConsentActivitiesCheck('Fingering', RxBool(false)),
       ConsentActivitiesCheck('Hand job ', RxBool(false)),
     ],
@@ -104,6 +111,7 @@ class AppData {
 
   static final ConsentActivitiesData oralActivitiesConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Oral Activities',
     question: 'Please select your preferences for oral activities.',
     consentActivitiesCheck: [
@@ -115,6 +123,7 @@ class AppData {
 
   static final ConsentActivitiesData intercourseConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Intercourse',
     question: 'Please select your preferences for intercourse.',
     consentActivitiesCheck: [
@@ -127,6 +136,7 @@ class AppData {
 
   static final ConsentActivitiesData kinkConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'BDSM and Kink',
     question: 'Please select your preferences for BDSM and Kink.',
     consentActivitiesCheck: [
@@ -142,6 +152,7 @@ class AppData {
 
   static final ConsentActivitiesData communicationConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Communication and Verbal',
     question:
         'Please select your preferences for communication and verbal consent.',
@@ -153,11 +164,12 @@ class AppData {
 
   static final ConsentActivitiesData physicalIntimacyConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(false),
     type: 'Non-sexual Physical Intimacy',
     question:
         'Please select your preferences for non-sexual physical intimacy.',
     consentActivitiesCheck: [
-      ConsentActivitiesCheck('Sleeping in the same bed', RxBool(false)),
+      ConsentActivitiesCheck('Sleeping in the same bed', RxBool(true)),
       ConsentActivitiesCheck('Sharing a shower or bath', RxBool(false)),
       ConsentActivitiesCheck('Massage (non-sexual)', RxBool(false)),
       ConsentActivitiesCheck('Massage (sexual)', RxBool(false)),
@@ -166,6 +178,7 @@ class AppData {
 
   static final ConsentActivitiesData digitalIntimacyConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Digital Intimacy',
     question: 'Please select your preferences for digital intimacy.',
     consentActivitiesCheck: [
@@ -177,6 +190,7 @@ class AppData {
 
   static final ConsentActivitiesData experimentalConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Experimental Activities',
     question: 'Please select your preferences for experimental activities.',
     consentActivitiesCheck: [
@@ -188,6 +202,7 @@ class AppData {
 
   static final ConsentActivitiesData conditionsConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Frequency and Conditions',
     question:
         'Please select & specify your preferences for frequency and conditions.',
@@ -200,6 +215,7 @@ class AppData {
 
   static final ConsentActivitiesData comfortConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Safety and Comfort',
     question: 'Please select your preferences for Safety and Comfort.',
     consentActivitiesCheck: [
@@ -213,12 +229,13 @@ class AppData {
 
   static final ConsentActivitiesData customizationConsentActivitiesData =
       ConsentActivitiesData(
+    isSkip: RxBool(true),
     type: 'Additional Customization',
     question: 'Additional Customization(other)',
     consentActivitiesCheck: [],
   );
 
-  static final consentFormData = [
+  static final RxList<ConsentActivitiesData> consentFormData = [
     kissingConsentActivitiesData,
     touchingConsentActivitiesData,
     sexualTouchingConsentActivitiesData,
@@ -232,7 +249,7 @@ class AppData {
     conditionsConsentActivitiesData,
     comfortConsentActivitiesData,
     customizationConsentActivitiesData
-  ];
+  ].obs;
 
   static final List<Chats> chatsData = [
     Chats(
@@ -309,7 +326,8 @@ class AppData {
     Message(
         text: 'How are you? Last',
         sender: 'Vicki',
-        timestamp: DateTime.now().subtract(const Duration(minutes: 1))),    Message(
+        timestamp: DateTime.now().subtract(const Duration(minutes: 1))),
+    Message(
         text: 'Hello 1',
         sender: 'Bonnie',
         timestamp: DateTime.now().subtract(const Duration(minutes: 5))),
@@ -354,12 +372,16 @@ class AppData {
 }
 
 class ConsentActivitiesData {
+  RxBool isSkip;
   String? type;
   String? question;
   List<ConsentActivitiesCheck>? consentActivitiesCheck;
 
   ConsentActivitiesData(
-      {this.type, this.question, this.consentActivitiesCheck});
+      {required this.isSkip,
+      this.type,
+      this.question,
+      this.consentActivitiesCheck});
 }
 
 class ConsentActivitiesCheck {

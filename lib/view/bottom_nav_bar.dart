@@ -11,7 +11,9 @@ import 'package:i_consent/widget/get_image.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MyBottomNavBar extends StatelessWidget {
-  const MyBottomNavBar({super.key});
+  const MyBottomNavBar({super.key, required this.selectedIndexBottomNavBar});
+
+  final RxInt selectedIndexBottomNavBar;
 
   static const List<String> listOfBottomNavBarIcons = [
     AppData.settingIcon,
@@ -28,13 +30,12 @@ class MyBottomNavBar extends StatelessWidget {
   ];
 
   Widget _buildBottomNavBarIcon(int index) {
-    final bool isSelected =
-        index == SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value;
+    final bool isSelected = index == selectedIndexBottomNavBar.value;
     return GestureDetector(
-      onTap: () =>
-          SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value = index,
+      onTap: () => selectedIndexBottomNavBar.value = index,
       child: CircleAvatar(
-        backgroundColor: isSelected ? AppColor.primaryColor : AppColor.bgColor,
+        backgroundColor:
+            isSelected ? AppColor.primaryColor : AppColor.whiteColor,
         child: GetSvgImage(
           listOfBottomNavBarIcons[index],
           color: isSelected ? AppColor.bgColor : null,
@@ -82,8 +83,7 @@ class MyBottomNavBar extends StatelessWidget {
           () => Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              pagesOfBottomNavBarIcons[
-                  SelectedIndexOfBottomNavBar.selectedIndexBottomNavBar.value],
+              pagesOfBottomNavBarIcons[selectedIndexBottomNavBar.value],
               _buildBottomNavBar(),
             ],
           ),
@@ -91,8 +91,4 @@ class MyBottomNavBar extends StatelessWidget {
       ),
     );
   }
-}
-
-class SelectedIndexOfBottomNavBar {
-  static var selectedIndexBottomNavBar = 1.obs;
 }

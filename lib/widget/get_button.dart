@@ -21,20 +21,11 @@ class GetButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: SizeConfig.width,
-        decoration: BoxDecoration(
-            color: buttonColor ?? AppColor.primaryColor,
-            borderRadius:
-                const BorderRadiusDirectional.all(Radius.circular(8))),
-        child: GetTextW5S16(
-          text,
-          color: textColor ?? AppColor.whiteColor,
-          textAlign: TextAlign.center,
-        ).paddingSymmetric(vertical: 1.2.h),
-      ),
+    return MaterialButton(
+      onPressed: onTap,
+      color: buttonColor ?? AppColor.primaryColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: GetTextW4S16(text, color: textColor ?? AppColor.whiteColor),
     );
   }
 }
@@ -79,8 +70,43 @@ class GetSocialButton extends StatelessWidget {
               textAlign: TextAlign.center,
             )
           ],
-        ).paddingSymmetric(vertical: 1.2.h),
+        ).paddingSymmetric(vertical: 1.h),
       ),
+    );
+  }
+}
+
+class GetOutlineButton extends StatelessWidget {
+  final String text;
+  final Color? buttonColor;
+  final Color? textColor;
+  final void Function() onTap;
+
+  const GetOutlineButton(
+    this.text, {
+    super.key,
+    this.buttonColor,
+    this.textColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: onTap,
+      style: ButtonStyle(
+        backgroundColor:
+            WidgetStateProperty.all<Color>(buttonColor ?? AppColor.whiteColor),
+        foregroundColor: WidgetStateProperty.all<Color>(
+            textColor ?? AppColor.darkBlackColor),
+        overlayColor: WidgetStateProperty.all<Color>(
+            AppColor.lightGreyColor.withOpacity(0.3)),
+        side: WidgetStateProperty.all<BorderSide>(
+            const BorderSide(color: AppColor.darkBlackColor, width: 1)),
+        shape: WidgetStateProperty.all<OutlinedBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      ),
+      child: GetTextW4S16(text, color: textColor ?? AppColor.darkBlackColor),
     );
   }
 }
