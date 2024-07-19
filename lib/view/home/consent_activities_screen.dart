@@ -57,7 +57,6 @@ class ConsentActivitiesScreen extends StatelessWidget {
       centerTitle: true,
       leading: IconButton(
         onPressed: () {
-          _clearSelectedItems();
           _goBack();
         },
         icon: Icon(
@@ -125,6 +124,39 @@ class ConsentActivitiesScreen extends StatelessWidget {
                             activityData.consentActivitiesCheck![index]),
                       ),
                     ),
+                    Obx(
+                      () => Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _getConsentActivityData(currentStep).isAddMore!.value
+                              ? Expanded(
+                                  child: GetTextFormField(
+                                    'Enter your preference ...',
+                                    controller: certainSituationController,
+                                    minLines: 1,
+                                    maxLines: 3,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                          GetButton(
+                            _getConsentActivityData(currentStep)
+                                    .isAddMore!
+                                    .value
+                                ? 'remove'
+                                : 'add more',
+                            onTap: () {
+                              _getConsentActivityData(currentStep)
+                                      .isAddMore!
+                                      .value =
+                                  !_getConsentActivityData(currentStep)
+                                      .isAddMore!
+                                      .value;
+                            },
+                          ).paddingOnly(left: 2.h),
+                        ],
+                      ).paddingOnly(top: 1.h),
+                    ),
                     if (currentStep == 11)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,6 +166,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
                           GetTextFormField(
                             'Specify here ...',
                             controller: certainSituationController,
+                            minLines: 3,
                             maxLines: 3,
                           ).paddingOnly(bottom: 1.h),
                           const GetTextW5S16('With specific conditions')
@@ -141,6 +174,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
                           GetTextFormField(
                             'Specify here ...',
                             controller: specificConditionController,
+                            minLines: 3,
                             maxLines: 3,
                           ),
                         ],
@@ -151,6 +185,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
                 GetTextFormField(
                   'Specify here ...',
                   controller: additionalCustomizationController,
+                  minLines: 3,
                   maxLines: 5,
                 ).paddingOnly(top: 1.h),
             ],
@@ -168,6 +203,7 @@ class ConsentActivitiesScreen extends StatelessWidget {
     return GetCheckList(
       activity: activity,
       onTap: () => _updateActivityCheck(activity),
+      isSelected: false,
     );
   }
 
@@ -176,8 +212,8 @@ class ConsentActivitiesScreen extends StatelessWidget {
       isEdit! ? 'Save Changes' : 'Next',
       onTap: () {
         if (_isAnyItemChecked() || indexConsentActivities.value == 13) {
-          _getConsentActivityData(indexConsentActivities.value).isSkip =
-              RxBool(false);
+          // _getConsentActivityData(indexConsentActivities.value).isSkip =
+          //     RxBool(false);
           if (isEdit!) {
             Get.to(() => const ReviewUpdateScreen());
           } else {

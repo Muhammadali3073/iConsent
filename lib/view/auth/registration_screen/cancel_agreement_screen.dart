@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
+import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
@@ -118,9 +119,10 @@ class CancelAgreementScreen extends StatelessWidget {
         onTap: () async {
           Uint8List? signatureImage = await signatureController.toPngBytes();
           if (signatureImage != null) {
-            Get.back();
+            Get.offAll(
+                () => MyBottomNavBar(selectedIndexBottomNavBar: RxInt(1)));
             showSnackBar(
-              'Agreement Canceled successfully',
+              'Agreement Canceled Successfully',
               true,
             );
           } else {

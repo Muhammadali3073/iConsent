@@ -22,21 +22,21 @@ class GenderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GetAppBar(
+      appBar: const GetAppBar(
         title: 'About me',
-        actions: [
-          TextButton(
-            onPressed: () {
-              genderController.clear();
-              selectedIndexGender.value = 6;
-              Get.to(() => LocationScreen());
-            },
-            child: const GetTextW4S14(
-              'Skip',
-              color: AppColor.primaryColor,
-            ),
-          ),
-        ],
+        // actions: [
+        //   TextButton(
+        //     onPressed: () {
+        //       genderController.clear();
+        //       selectedIndexGender.value = 6;
+        //       Get.to(() => LocationScreen());
+        //     },
+        //     child: const GetTextW4S14(
+        //       'Skip',
+        //       color: AppColor.primaryColor,
+        //     ),
+        //   ),
+        // ],
       ),
       body: SizedBox(
         height: SizeConfig.height,

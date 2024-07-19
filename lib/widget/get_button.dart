@@ -70,7 +70,7 @@ class GetSocialButton extends StatelessWidget {
               textAlign: TextAlign.center,
             )
           ],
-        ).paddingSymmetric(vertical: 1.h),
+        ).paddingSymmetric(vertical: 0.8.h),
       ),
     );
   }

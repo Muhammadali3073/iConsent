@@ -21,8 +21,9 @@ import 'package:signature/signature.dart';
 import 'review_consent_form_screen.dart';
 
 class ConfirmationDetailsScreen extends StatelessWidget {
-  ConfirmationDetailsScreen({super.key});
+  ConfirmationDetailsScreen({super.key, this.isResponse = false});
 
+  final bool isResponse;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final selectedDate = Rx<DateTime?>(null);
@@ -66,14 +67,14 @@ class ConfirmationDetailsScreen extends StatelessWidget {
                     color: AppColor.primaryColor,
                   ),
                 ),
-                const GetTextW5S16('Upload Display Picture')
+                const GetTextW5S16('Take a Selfie')
                     .paddingOnly(top: 2.h, bottom: 2.h),
                 Obx(() {
                   return selectedImagePath.value == ''
                       ? Align(
                           alignment: AlignmentDirectional.center,
                           child: GestureDetector(
-                            onTap: () => _pickImage(ImageSource.gallery),
+                            onTap: () => _pickImage(ImageSource.camera),
                             child: SizedBox(
                               height: 40.h,
                               child: DottedBorder(
@@ -87,13 +88,13 @@ class ConfirmationDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
-                                        Icons.upload_file,
+                                        Icons.camera_alt_outlined,
                                         color: AppColor.primaryColor,
                                         size: 10.h,
                                       ),
                                       const VerSpace(1),
                                       const GetTextW6S19(
-                                        'Upload Picture',
+                                        'Take a selfie',
                                         color: AppColor.primaryColor,
                                       ),
                                     ],
@@ -178,8 +179,10 @@ class ConfirmationDetailsScreen extends StatelessWidget {
         onTap: () async {
           Uint8List? signatureImage = await signatureController.toPngBytes();
           if (signatureController.isNotEmpty) {
-            Get.to(
-                () => ReviewConsentFormScreen(signatureImage: signatureImage));
+            Get.to(() => ReviewConsentFormScreen(
+                  signatureImage: signatureImage,
+                  isResponse: isResponse,
+                ));
           } else {
             showSnackBar(
               'Signature must not be empty.',
@@ -224,13 +227,13 @@ class ConfirmationDetailsScreen extends StatelessWidget {
   }
 
   void _pickImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
+    final pickedFile = await ImagePicker()
+        .pickImage(source: source, preferredCameraDevice: CameraDevice.front);
     if (pickedFile != null) {
       selectedImagePath.value = pickedFile.path;
     } else {
       selectedImagePath.value = '';
-      Get.snackbar('Error', 'No image selected',
-          snackPosition: SnackPosition.TOP);
+      showSnackBar('No image selected', false);
     }
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
+import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
+import 'package:i_consent/utils/utils.dart';
+import 'package:i_consent/view/auth/registration_screen/link_consent_screen.dart';
+import 'package:i_consent/view/home/review_partner_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
@@ -19,15 +23,26 @@ class NotificationScreen extends StatelessWidget {
         width: SizeConfig.width,
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: 10,
+          itemCount: AppData.notificationData.length,
           physics: const AlwaysScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(vertical: 1.h),
           itemBuilder: (context, index) {
             return Column(
               children: [
                 const VerSpace(1),
-                GestureDetector(
-                  onTap: () {},
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  overlayColor: WidgetStateColor.transparent,
+                  focusColor: Colors.transparent,
+                  onTap: () {
+                    if (index == 0) {
+                      Get.to(() => LinkConsentScreen());
+                    } else if (index == 1) {
+                      Get.to(() => ReviewPartnerScreen());
+                    } else {
+                      Get.to(() => ReviewPartnerScreen(isResponse: true));
+                    }
+                  },
                   child: SizedBox(
                     height: 15.h,
                     child: Row(
@@ -41,35 +56,39 @@ class NotificationScreen extends StatelessWidget {
                               radius: 2.6.h,
                               backgroundColor:
                                   AppColor.lightGreyColor.withOpacity(0.1),
-                              backgroundImage: const NetworkImage(
-                                'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
+                              backgroundImage: NetworkImage(
+                                AppData.notificationData[index].profilePic
+                                    .toString(),
                               ),
                             ),
                           ),
                         ),
-                        const Expanded(
+                        Expanded(
                           flex: 4,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GetTextW4S14(
-                                '5h ago',
+                                Utils.formatDateTime(
+                                  AppData.notificationData[index].timestamp,
+                                ),
                                 color: AppColor.lightGreyColor,
                               ),
-                              Spacer(),
+                              const Spacer(),
                               GetTextW5S16(
-                                'John has sent you a requestJohn has sent you a requestJohn has sent you a request',
+                                AppData.notificationData[index].text.toString(),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Spacer(),
+                              const Spacer(),
                               GetTextW4S14(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do...',
+                                AppData.notificationData[index].subText
+                                    .toString(),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 color: AppColor.lightGreyColor,
                               ),
-                              Spacer(),
+                              const Spacer(),
                             ],
                           ),
                         ),

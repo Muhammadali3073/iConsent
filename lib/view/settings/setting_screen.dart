@@ -29,6 +29,8 @@ class SettingsScreen extends StatelessWidget {
     } else if (index == 4) {
       Get.to(() => const FeedbackScreen());
     } else if (index == 5) {
+
+    } else if (index == 6) {
       Utils.logoutDialogBox(
         context,
         () => Get.offAll(() => LoginScreen()),

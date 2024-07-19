@@ -4,16 +4,19 @@ import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/registration_screen/link_consent_screen.dart';
+import 'package:i_consent/view/bottom_nav_bar.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ReviewConsentFormScreen extends StatelessWidget {
-  const ReviewConsentFormScreen({super.key, required this.signatureImage});
+  const ReviewConsentFormScreen(
+      {super.key, required this.signatureImage, this.isResponse = false});
 
+  final bool isResponse;
   final Uint8List? signatureImage;
 
   @override
@@ -71,7 +74,7 @@ class ReviewConsentFormScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 1.h),
                 itemBuilder: (context, index) {
                   return Obx(
-                    () => AppData.consentFormData[index].isSkip.value == false
+                    () => AppData.consentFormData[index].isSkip.value
                         ? Column(
                             children: [
                               const VerSpace(1),
@@ -169,12 +172,24 @@ class ReviewConsentFormScreen extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
-    return SizedBox(
-      width: SizeConfig.width,
-      child: GetButton(
-        'Link this consent',
-        onTap: () => Get.to(() => LinkConsentScreen()),
-      ),
+    return GetButton(
+      isResponse ? 'Share this consent back' : 'Share this consent',
+      onTap: () {
+        if (isResponse == true) {
+          Get.offAll(() => MyBottomNavBar(selectedIndexBottomNavBar: RxInt(1)));
+
+          showSnackBar(
+            'Shared consent form successfully.',
+            true,
+          );
+        } else {
+          Get.offAll(() => MyBottomNavBar(selectedIndexBottomNavBar: RxInt(1)));
+          showSnackBar(
+            'Shared consent form successfully.',
+            true,
+          );
+        }
+      },
     );
   }
 }

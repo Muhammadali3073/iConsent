@@ -35,6 +35,7 @@ class AppData {
   static const String fileIcon = 'file.svg';
   static const String sendIcon = 'send.svg';
   static const String videoIcon = 'video.svg';
+  static const String shareAppIcon = 'share_app.svg';
 
   static final List<GenderData> genderList = [
     GenderData(maleIcon, 'Male'),
@@ -50,12 +51,23 @@ class AppData {
     'Cancel an existing consent form',
   ];
 
+  static final List<ConsentActivitiesCheck> consentFor = [
+    ConsentActivitiesCheck('Single encounter', RxBool(false)),
+    ConsentActivitiesCheck('Casual friendship', RxBool(false)),
+    ConsentActivitiesCheck('Dating', RxBool(false)),
+    ConsentActivitiesCheck('Committed relationship', RxBool(false)),
+    ConsentActivitiesCheck('Married', RxBool(false)),
+    ConsentActivitiesCheck(
+        'Alternative lifestyle\n(poly-amorous, swingers)', RxBool(false)),
+  ];
+
   static final List<SettingTileModel> settingsTileDataList = [
     SettingTileModel(editProfileIcon, 'Edit Profile', true),
     SettingTileModel(reminderIcon, 'Reminder', true),
     SettingTileModel(changePasswordIcon, 'Change password', true),
     SettingTileModel(tcIcon, 'Terms & Conditions', true),
     SettingTileModel(headsetIcon, 'Feedback & Support', true),
+    SettingTileModel(shareAppIcon, 'Share App', false),
     SettingTileModel(logoutIcon, 'Logout', false),
     SettingTileModel(deleteIcon, 'Delete Account', false),
   ];
@@ -68,7 +80,8 @@ class AppData {
 
   static final ConsentActivitiesData kissingConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Kissing',
     question: 'Please select your preferences for kissing.',
     consentActivitiesCheck: [
@@ -82,13 +95,14 @@ class AppData {
   static final ConsentActivitiesData touchingConsentActivitiesData =
       ConsentActivitiesData(
     isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Touching',
     question: 'Please select your preferences for touching.',
     consentActivitiesCheck: [
       ConsentActivitiesCheck('Holding hands', RxBool(false)),
       ConsentActivitiesCheck('Hugging', RxBool(false)),
       ConsentActivitiesCheck('Cuddling', RxBool(false)),
-      ConsentActivitiesCheck('Caressing face', RxBool(true)),
+      ConsentActivitiesCheck('Caressing face', RxBool(false)),
       ConsentActivitiesCheck('Touching arms', RxBool(false)),
       ConsentActivitiesCheck('Touching back', RxBool(false)),
       ConsentActivitiesCheck('Touching legs', RxBool(false)),
@@ -98,12 +112,13 @@ class AppData {
   static final ConsentActivitiesData sexualTouchingConsentActivitiesData =
       ConsentActivitiesData(
     isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Sexual Touching',
     question: 'Please select your preferences for sexual touching.',
     consentActivitiesCheck: [
       ConsentActivitiesCheck('Touching breast/chest', RxBool(false)),
       ConsentActivitiesCheck(
-          'Touching genitals (over clothing)', RxBool(true)),
+          'Touching genitals (over clothing)', RxBool(false)),
       ConsentActivitiesCheck('Fingering', RxBool(false)),
       ConsentActivitiesCheck('Hand job ', RxBool(false)),
     ],
@@ -111,7 +126,8 @@ class AppData {
 
   static final ConsentActivitiesData oralActivitiesConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Oral Activities',
     question: 'Please select your preferences for oral activities.',
     consentActivitiesCheck: [
@@ -123,7 +139,8 @@ class AppData {
 
   static final ConsentActivitiesData intercourseConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Intercourse',
     question: 'Please select your preferences for intercourse.',
     consentActivitiesCheck: [
@@ -136,7 +153,8 @@ class AppData {
 
   static final ConsentActivitiesData kinkConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'BDSM and Kink',
     question: 'Please select your preferences for BDSM and Kink.',
     consentActivitiesCheck: [
@@ -152,7 +170,8 @@ class AppData {
 
   static final ConsentActivitiesData communicationConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Communication and Verbal',
     question:
         'Please select your preferences for communication and verbal consent.',
@@ -165,11 +184,12 @@ class AppData {
   static final ConsentActivitiesData physicalIntimacyConsentActivitiesData =
       ConsentActivitiesData(
     isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Non-sexual Physical Intimacy',
     question:
         'Please select your preferences for non-sexual physical intimacy.',
     consentActivitiesCheck: [
-      ConsentActivitiesCheck('Sleeping in the same bed', RxBool(true)),
+      ConsentActivitiesCheck('Sleeping in the same bed', RxBool(false)),
       ConsentActivitiesCheck('Sharing a shower or bath', RxBool(false)),
       ConsentActivitiesCheck('Massage (non-sexual)', RxBool(false)),
       ConsentActivitiesCheck('Massage (sexual)', RxBool(false)),
@@ -178,7 +198,8 @@ class AppData {
 
   static final ConsentActivitiesData digitalIntimacyConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Digital Intimacy',
     question: 'Please select your preferences for digital intimacy.',
     consentActivitiesCheck: [
@@ -190,7 +211,8 @@ class AppData {
 
   static final ConsentActivitiesData experimentalConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Experimental Activities',
     question: 'Please select your preferences for experimental activities.',
     consentActivitiesCheck: [
@@ -202,7 +224,8 @@ class AppData {
 
   static final ConsentActivitiesData conditionsConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Frequency and Conditions',
     question:
         'Please select & specify your preferences for frequency and conditions.',
@@ -215,7 +238,8 @@ class AppData {
 
   static final ConsentActivitiesData comfortConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Safety and Comfort',
     question: 'Please select your preferences for Safety and Comfort.',
     consentActivitiesCheck: [
@@ -229,7 +253,8 @@ class AppData {
 
   static final ConsentActivitiesData customizationConsentActivitiesData =
       ConsentActivitiesData(
-    isSkip: RxBool(true),
+    isSkip: RxBool(false),
+    isAddMore: RxBool(false),
     type: 'Additional Customization',
     question: 'Additional Customization(other)',
     consentActivitiesCheck: [],
@@ -369,16 +394,42 @@ class AppData {
         .where((city) => city.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
+
+  static List<Notification> notificationData = [
+    Notification(
+      profilePic:
+          'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
+      text: 'John sent a consent form',
+      subText: 'Tap to fill out.',
+      timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
+    ),
+    Notification(
+      profilePic:
+          'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740',
+      text: 'Your agreement with Sarah is ready!',
+      subText: 'Tap to fill out.',
+      timestamp: DateTime.now().subtract(const Duration(minutes: 60)),
+    ),
+    Notification(
+      profilePic:
+          'https://img.freepik.com/free-photo/young-cute-woman-cap-glasses-posing-outside-showing-thumbs-up-high-quality-photo_114579-91847.jpg?t=st=1719316843~exp=1719320443~hmac=084a70fe77f2055790215a082bc017ef871822488ae130870309702ade552119&w=740',
+      text: 'Sarah filled consent form',
+      subText: 'Tap to review agreement.',
+      timestamp: DateTime.now().subtract(const Duration(minutes: 300)),
+    ),
+  ];
 }
 
 class ConsentActivitiesData {
   RxBool isSkip;
+  RxBool? isAddMore;
   String? type;
   String? question;
   List<ConsentActivitiesCheck>? consentActivitiesCheck;
 
   ConsentActivitiesData(
       {required this.isSkip,
+      this.isAddMore,
       this.type,
       this.question,
       this.consentActivitiesCheck});
@@ -437,6 +488,20 @@ class Message {
   Message({
     required this.text,
     required this.sender,
+    required this.timestamp,
+  });
+}
+
+class Notification {
+  final String profilePic;
+  final String text;
+  final String subText;
+  final DateTime timestamp;
+
+  Notification({
+    required this.profilePic,
+    required this.text,
+    required this.subText,
     required this.timestamp,
   });
 }

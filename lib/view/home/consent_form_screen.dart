@@ -4,12 +4,14 @@ import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
 import 'package:i_consent/view/auth/registration_screen/add_new_module_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/link_consent_screen.dart';
 import 'package:i_consent/view/home/confirmation_details_screen.dart';
 import 'package:i_consent/view/home/consent_activities_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_spacing.dart';
 import 'package:i_consent/widget/get_text.dart';
+import 'package:i_consent/widget/get_toast.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ConsentFormScreen extends StatelessWidget {
@@ -23,28 +25,24 @@ class ConsentFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isChoose
-          ? const GetAppBar(
-              title: 'Consent Form',
-              centerTitle: true,
-            )
-          : GetAppBar(
-              title: 'Consent Form',
-              centerTitle: true,
-              leading: IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(Icons.close),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Get.to(() => const AddNewModuleScreen()),
-                  child: const GetTextW4S12(
-                    'Add Module',
-                    color: AppColor.primaryColor,
-                  ),
-                ),
-              ],
+      appBar: GetAppBar(
+        title: 'Consent Form',
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: const Icon(Icons.close),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () =>
+                Get.to(() => const AddNewModuleScreen(isModify: true)),
+            child: const GetTextW4S12(
+              'Add Module',
+              color: AppColor.primaryColor,
             ),
+          ),
+        ],
+      ),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,
@@ -55,7 +53,7 @@ class ConsentFormScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 1.h),
           itemBuilder: (context, index) {
             return Obx(
-              () => AppData.consentFormData[index].isSkip.value == false
+              () => AppData.consentFormData[index].isSkip.value
                   ? Column(
                       children: [
                         const VerSpace(1),
@@ -134,29 +132,46 @@ class ConsentFormScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar:
-          isChoose ? _buildAddNewModule(context) : _buildConfirm(context),
+          // isChoose ?
+          _buildAddNewModule(context),
+      // : _buildLink(context),
     );
   }
 
-  Widget _buildConfirm(BuildContext context) {
-    return GetButton(
-      'Confirm',
-      onTap: () => Get.to(() => ConfirmationDetailsScreen()),
-    ).paddingOnly(
-      right: 3.w,
-      left: 3.w,
-      bottom: 2.h,
-    );
-  }
+  // Widget _buildConfirm(BuildContext context) {
+  //   return GetButton(
+  //     'Confirm',
+  //     onTap: () => Get.to(() => ConfirmationDetailsScreen()),
+  //   ).paddingOnly(
+  //     right: 3.w,
+  //     left: 3.w,
+  //     bottom: 2.h,
+  //   );
+  // }
 
   Widget _buildAddNewModule(BuildContext context) {
     return GetButton(
-      'Add New Module',
-      onTap: () => Get.to(() => const AddNewModuleScreen()),
+      'Save Consent Form',
+      onTap: () {
+        Get.back();
+        Get.back();
+        showSnackBar('Saved Consent Form Successfully', true);
+      },
     ).paddingOnly(
       right: 3.w,
       left: 3.w,
       bottom: 2.h,
     );
   }
+
+// Widget _buildLink(BuildContext context) {
+//   return GetButton(
+//     'Link this consent',
+//     onTap: () => Get.to(() => ConfirmationDetailsScreen()),
+//   ).paddingOnly(
+//     right: 3.w,
+//     left: 3.w,
+//     bottom: 2.h,
+//   );
+// }
 }

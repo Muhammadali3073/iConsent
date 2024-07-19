@@ -38,7 +38,7 @@ class SettingsTile extends StatelessWidget {
                     width: 4.h,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: GetSvgImage(icon),
+                      child: GetSvgImage(icon, color: AppColor.primaryColor),
                     ),
                   ),
                   GetTextW5S16(title.toString()),

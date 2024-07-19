@@ -51,7 +51,7 @@ class UserProfileScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
@@ -78,7 +78,7 @@ class UserProfileScreen extends StatelessWidget {
                                         'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740'),
                                     name: RxString('Jessica Parker'),
                                   )),
-                              child: GetSvgImage(
+                              child: const GetSvgImage(
                                 AppData.chatIcon,
                                 color: AppColor.primaryColor,
                                 height: 4,

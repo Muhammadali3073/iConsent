@@ -1,5 +1,3 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,12 +15,6 @@ Future<void> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Utils.setStatusBarColor();
-
-  // runApp(DevicePreview(
-  //   enabled: !kReleaseMode,
-  //   builder: (context) => const MyApp(),
-  // ));
-
   runApp(const MyApp());
 }
 
@@ -49,11 +41,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: const SplashScreen(),
-
-        // DevicePreview
-        // useInheritedMediaQuery: true,
-        // locale: DevicePreview.locale(context),
-        // builder: DevicePreview.appBuilder,
       );
     });
   }

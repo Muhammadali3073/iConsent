@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/data.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
+import 'package:i_consent/view/auth/registration_screen/create_consent_form_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/i_want_to_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/share_link_screen.dart';
+import 'package:i_consent/view/chat/inbox_chat_screen.dart';
 import 'package:i_consent/view/home/all_agreements_screen.dart';
-import 'package:i_consent/view/home/article_details_screen.dart';
-import 'package:i_consent/view/home/articles_screen.dart';
-import 'package:i_consent/view/home/consent_activities_screen.dart';
 import 'package:i_consent/view/home/notification_screen.dart';
 import 'package:i_consent/view/home/review_agreement_screen.dart';
 import 'package:i_consent/view/profile/user_profile_screen.dart';
@@ -37,17 +38,23 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionHeader(
-              'Featured Articles',
+              'Current Agreements',
               'See all',
-              () => Get.to(() => const ArticlesScreen()),
+              () => Get.to(() => const AllAgreementsScreen(
+                    title: 'Current Agreements',
+                  )),
             ),
-            _buildFeaturedArticlesGrid(),
+            _buildAgreementsGrid(
+                'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740'),
             _buildSectionHeader(
-              'Agreements',
+              'All Agreements',
               'See all',
-              () => Get.to(() => const AllAgreementsScreen()),
+              () => Get.to(() => const AllAgreementsScreen(
+                    title: 'All Agreements',
+                  )),
             ),
-            _buildAgreementsGrid(),
+            _buildAgreementsGrid(
+                'https://img.freepik.com/free-photo/young-cute-woman-cap-glasses-posing-outside-showing-thumbs-up-high-quality-photo_114579-91847.jpg?t=st=1719316843~exp=1719320443~hmac=084a70fe77f2055790215a082bc017ef871822488ae130870309702ade552119&w=740'),
             const Spacer(),
             _buildButton(
               'Create consent form',
@@ -79,27 +86,27 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeaturedArticlesGrid() {
-    return SizedBox(
-      height: 24.h,
-      child: GridView.builder(
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(horizontal: 2.h),
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1,
-          mainAxisSpacing: 1.h,
-          childAspectRatio: 1 / 1.4,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return _buildFeaturedArticleItem(
-            () => Get.to(() => const ArticlesDetailsScreen()),
-          );
-        },
-      ),
-    ).paddingOnly(bottom: 1.h);
-  }
+  // Widget _buildFeaturedArticlesGrid() {
+  //   return SizedBox(
+  //     height: 24.h,
+  //     child: GridView.builder(
+  //       shrinkWrap: true,
+  //       padding: EdgeInsets.symmetric(horizontal: 2.h),
+  //       scrollDirection: Axis.horizontal,
+  //       itemCount: 5,
+  //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //         crossAxisCount: 1,
+  //         mainAxisSpacing: 1.h,
+  //         childAspectRatio: 1 / 1.4,
+  //       ),
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return _buildFeaturedArticleItem(
+  //           () => Get.to(() => const ArticlesDetailsScreen()),
+  //         );
+  //       },
+  //     ),
+  //   ).paddingOnly(bottom: 1.h);
+  // }
 
   Widget _buildFeaturedArticleItem(void Function()? onTap) {
     return GestureDetector(
@@ -173,7 +180,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAgreementsGrid() {
+  Widget _buildAgreementsGrid(String linkImage) {
     return SizedBox(
       height: 26.h,
       child: GridView.builder(
@@ -188,23 +195,26 @@ class HomeScreen extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return _buildAgreementItem(
-            () => Get.to(() => const UserProfileScreen()),
-          );
+              index,
+              () => Get.to(
+                    () => const UserProfileScreen(),
+                  ),
+              linkImage);
         },
       ),
     );
   }
 
-  Widget _buildAgreementItem(void Function()? onTap) {
+  Widget _buildAgreementItem(
+      int index, void Function()? onTap, String linkImage) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: AppColor.lightGreyColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
-          image: const DecorationImage(
-            image: NetworkImage(
-                'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740'),
+          image: DecorationImage(
+            image: NetworkImage(linkImage),
             fit: BoxFit.cover,
           ),
         ),
@@ -231,7 +241,11 @@ class HomeScreen extends StatelessWidget {
               ],
             ).paddingOnly(bottom: 0.2.h),
             GestureDetector(
-              onTap: () {},
+              onTap: () => Get.to(() => InboxChatScreen(
+                    profilePic: RxString(
+                        'https://img.freepik.com/free-photo/model-wearing-beautiful-shade-clothing_23-2151428017.jpg?t=st=1718194161~exp=1718197761~hmac=d4a5df429daa63b4242701a379e917aafadeb4fd30720ce143a72dd3e6cf7d36&w=740'),
+                    name: RxString('Leilani'),
+                  )),
               child: Container(
                 width: SizeConfig.width,
                 alignment: Alignment.center,
@@ -248,7 +262,9 @@ class HomeScreen extends StatelessWidget {
             ).paddingOnly(bottom: 0.5.h),
             GestureDetector(
               onTap: () {
-                Get.to(() => const ReviewAgreementScreen());
+                index == 0 || index == 3
+                    ? Get.to(() => const CreateConsentFormScreen())
+                    : Get.to(() => const ReviewAgreementScreen());
               },
               child: Container(
                 width: SizeConfig.width,
@@ -258,8 +274,10 @@ class HomeScreen extends StatelessWidget {
                   color: AppColor.primaryColor,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const GetTextW4S12(
-                  'Review Consent Form',
+                child: GetTextW4S12(
+                  index == 0 || index == 3
+                      ? 'Create consent form'
+                      : 'Review consent form',
                   color: AppColor.whiteColor,
                 ),
               ),
@@ -282,7 +300,7 @@ class HomeScreen extends StatelessWidget {
         height: 5.h,
         width: SizeConfig.width,
         child: GetOutlineButton(
-          'Create consent form',
+          'Link with Partner',
           onTap: onPressed,
           buttonColor: backgroundColor,
           textColor: textColor,
@@ -292,6 +310,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _handleCreateConsentFormPressed() {
-    Get.to(() => ConsentActivitiesScreen(indexConsentActivities: RxInt(1)));
+    Get.to(() => ShareLinkConsentScreen());
+    // Get.to(() => ConsentActivitiesScreen(indexConsentActivities: RxInt(1)));
   }
 }

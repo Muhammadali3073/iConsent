@@ -6,10 +6,16 @@ import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class GetCheckList extends StatelessWidget {
-  const GetCheckList({super.key, required this.activity, required this.onTap});
+  const GetCheckList({
+    super.key,
+    required this.activity,
+    required this.onTap,
+    this.isSelected,
+  });
 
   final dynamic activity;
   final void Function()? onTap;
+  final bool? isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +48,26 @@ class GetCheckList extends StatelessWidget {
                       : AppColor.darkBlackColor,
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColor.whiteColor,
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(
-                    color: activity.isCheck!.value
-                        ? AppColor.whiteColor
-                        : AppColor.lightGreyColor.withOpacity(0.7),
-                  ),
-                ),
-                child: Icon(
-                  Icons.check,
-                  size: 1.6.h,
-                  color: activity.isCheck!.value
-                      ? AppColor.primaryColor
-                      : AppColor.lightGreyColor.withOpacity(0.7),
-                ).paddingAll(0.3.h),
-              ),
+              isSelected!
+                  ? const SizedBox.shrink()
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: AppColor.whiteColor,
+                        borderRadius: BorderRadius.circular(4.0),
+                        border: Border.all(
+                          color: activity.isCheck!.value
+                              ? AppColor.whiteColor
+                              : AppColor.lightGreyColor.withOpacity(0.7),
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.check,
+                        size: 1.6.h,
+                        color: activity.isCheck!.value
+                            ? AppColor.primaryColor
+                            : AppColor.lightGreyColor.withOpacity(0.7),
+                      ).paddingAll(0.3.h),
+                    ),
             ],
           ),
         ),

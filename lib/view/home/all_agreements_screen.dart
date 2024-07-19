@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/home/consent_activities_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/create_consent_form_screen.dart';
 import 'package:i_consent/view/home/review_agreement_screen.dart';
 import 'package:i_consent/view/profile/user_profile_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
@@ -11,12 +11,14 @@ import 'package:i_consent/widget/get_text.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AllAgreementsScreen extends StatelessWidget {
-  const AllAgreementsScreen({super.key});
+  const AllAgreementsScreen({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GetAppBar(title: 'All Agreements', centerTitle: true),
+      appBar: GetAppBar(title: title.toString(), centerTitle: true),
       body: SizedBox(
         height: SizeConfig.height,
         width: SizeConfig.width,
@@ -119,9 +121,8 @@ class AllAgreementsScreen extends StatelessWidget {
                                   onTap: () {
                                     index == 1
                                         ? Get.to(
-                                            () => ConsentActivitiesScreen(
-                                              indexConsentActivities: RxInt(1),
-                                            ),
+                                            () =>
+                                                const CreateConsentFormScreen(),
                                           )
                                         : Get.to(() =>
                                             const ReviewAgreementScreen());

@@ -21,20 +21,20 @@ class AgeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GetAppBar(
+      appBar: const GetAppBar(
         title: 'About me',
-        actions: [
-          TextButton(
-            onPressed: () {
-              dobController.clear();
-              Get.to(() => ProfilePictureScreen());
-            },
-            child: const GetTextW4S14(
-              'Skip',
-              color: AppColor.primaryColor,
-            ),
-          ),
-        ],
+        // actions: [
+        //   TextButton(
+        //     onPressed: () {
+        //       dobController.clear();
+        //       Get.to(() => ProfilePictureScreen());
+        //     },
+        //     child: const GetTextW4S14(
+        //       'Skip',
+        //       color: AppColor.primaryColor,
+        //     ),
+        //   ),
+        // ],
       ),
       body: SizedBox(
         height: SizeConfig.height,

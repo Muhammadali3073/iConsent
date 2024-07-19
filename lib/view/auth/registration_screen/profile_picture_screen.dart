@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:i_consent/constants/color.dart';
 import 'package:i_consent/utils/size_config/size_config.dart';
-import 'package:i_consent/view/auth/registration_screen/i_want_to_screen.dart';
+import 'package:i_consent/view/auth/registration_screen/confirm_profile_screen.dart';
 import 'package:i_consent/widget/get_app_bar.dart';
 import 'package:i_consent/widget/get_button.dart';
 import 'package:i_consent/widget/get_padding_spacing.dart';
@@ -23,20 +23,20 @@ class ProfilePictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GetAppBar(
+      appBar: const GetAppBar(
         title: 'About me',
-        actions: [
-          TextButton(
-            onPressed: () {
-              selectedImagePath.value = '';
-              Get.to(() => const IWantToScreen());
-            },
-            child: const GetTextW4S14(
-              'Skip',
-              color: AppColor.primaryColor,
-            ),
-          ),
-        ],
+        // actions: [
+        //   TextButton(
+        //     onPressed: () {
+        //       selectedImagePath.value = '';
+        //       Get.to(() => const IWantToScreen());
+        //     },
+        //     child: const GetTextW4S14(
+        //       'Skip',
+        //       color: AppColor.primaryColor,
+        //     ),
+        //   ),
+        // ],
       ),
       body: SizedBox(
         height: SizeConfig.height,
@@ -118,10 +118,10 @@ class ProfilePictureScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: GetButton(
-        'Confirm',
+        'Next',
         onTap: () {
           if (selectedImagePath.value.isNotEmpty) {
-            Get.to(() => const IWantToScreen());
+            Get.to(() => const ConfirmProfileScreen());
           } else {
             showSnackBar('Please select profile picture before next.', false);
           }

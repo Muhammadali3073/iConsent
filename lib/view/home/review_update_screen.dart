@@ -48,7 +48,7 @@ class ReviewUpdateScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 1.h),
                 itemBuilder: (context, index) {
                   return Obx(
-                    () => AppData.consentFormData[index].isSkip.value == false
+                    () => AppData.consentFormData[index].isSkip.value
                         ? Column(
                             children: [
                               const VerSpace(1),
