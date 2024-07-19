@@ -1,4 +1,4 @@
-package com.example.iConsent
+package com.iconsent.app
 
 import io.flutter.embedding.android.FlutterActivity
 
